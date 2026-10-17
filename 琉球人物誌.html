@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>琉球人物誌 ── 政治家と偉人</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0c0a07;
+    --bg-2:#15110a;
+    --bg-3:#1d1810;
+    --line:#3a2f18;
+    --line-2:#52421f;
+    --gold:#c9a44a;
+    --gold-2:#e0bf6c;
+    --gold-3:#f0d894;
+    --gold-soft:#8a7332;
+    --ink:#ece1c4;
+    --ink-2:#b8a980;
+    --ink-3:#7a6f54;
+    --red:#a04030;
+    --teal:#3e8870;
+    --serif:'Shippori Mincho','Noto Serif JP',serif;
+    --serif-en:'Cormorant Garamond',serif;
+  }
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+  body{font-size:15px;line-height:1.85}
+
+  /* ============ LAYOUT ============ */
+  .page{max-width:1080px;margin:0 auto;background:linear-gradient(180deg,#100c08 0%,#0c0a07 220px);}
+  .inner{padding:0 clamp(20px,5vw,64px)}
+
+  /* ============ HEADER ============ */
+  .masthead{padding:72px 0 64px;text-align:center;position:relative;overflow:hidden}
+  .shuri-photo{position:absolute;inset:0;z-index:0;pointer-events:none;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+  }
+  .shuri-photo img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;filter:saturate(.7) sepia(.1) brightness(1.15);
+    transition:opacity 1.6s ease;
+  }
+  .shuri-photo img.active{opacity:.68}
+  .shuri-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse 70% 80% at 50% 45%, rgba(12,10,7,.55), rgba(12,10,7,.15) 60%, transparent);
+  }
+  .masthead > *:not(.shuri-photo):not(.shuri-scrim){position:relative;z-index:2}
+  .crest{display:flex;justify-content:center;margin-bottom:28px}
+
+  /* ---- header animation ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .shuri-photo img.active{animation:photo-in 2.4s ease both}
+    @keyframes photo-in{from{opacity:0}to{opacity:.68}}
+    .crest img.mon{animation:mon-spin 90s linear infinite, rise .9s ease both}
+    @keyframes mon-spin{to{rotate:-360deg}}
+    .masthead .en{animation:rise .8s ease .15s both}
+    .masthead h1{animation:rise .9s ease .3s both}
+    .masthead .subtitle{animation:rise .9s ease .5s both}
+    .masthead .rule{animation:rule-grow 1.2s ease .7s both}
+    .masthead .meta{animation:rise .9s ease .9s both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes rule-grow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+  }
+  .crest svg{width:64px;height:64px;display:block}
+  .crest img.mon{width:64px;height:64px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.95}
+  .footer .crest-sm img.mon{width:36px;height:36px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.75}
+  .masthead .en{font-family:var(--serif-en);font-size:13px;letter-spacing:.42em;color:var(--gold-3);text-transform:uppercase;margin-bottom:18px;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead h1{font-family:var(--serif);font-weight:600;font-size:clamp(42px,6.2vw,64px);color:var(--gold-3);letter-spacing:.18em;line-height:1.3;text-indent:.18em}
+  .masthead .subtitle{margin-top:14px;font-size:13px;letter-spacing:.3em;color:#d6c8a0;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead .rule{width:280px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px auto 0}
+  .masthead .meta{margin-top:18px;font-size:11px;letter-spacing:.18em;color:#a9997a;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+
+  /* ============ ORNAMENTAL DIVIDERS ============ */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:64px 0 28px}
+  .ornament .line{flex:1;max-width:240px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-soft),var(--gold),var(--gold-soft),transparent)}
+  .ornament .mark{display:flex;align-items:center;gap:10px;color:var(--gold-2);font-size:11px;letter-spacing:.4em;text-transform:uppercase;font-family:var(--serif-en)}
+  .ornament .diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+
+  /* ============ ERA BANNER ============ */
+  .era{margin:56px 0 22px;display:flex;align-items:center;gap:18px}
+  .era .nub{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+  .era .name{font-size:18px;font-weight:600;color:var(--gold-2);letter-spacing:.22em;white-space:nowrap}
+  .era .years{font-family:var(--serif-en);font-size:13px;color:var(--ink-2);letter-spacing:.18em;white-space:nowrap}
+  .era .line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
+  .era .roman{font-family:var(--serif-en);font-size:11px;letter-spacing:.5em;color:var(--gold-soft);text-transform:uppercase;white-space:nowrap}
+
+  /* ============ DYNASTY CARD ============ */
+  .dynasty{margin-bottom:8px;border:1px solid var(--line);background:var(--bg-2);padding:36px clamp(20px,3vw,42px) 32px;position:relative}
+  .dynasty::before,.dynasty::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .dynasty::after{top:-1px;right:-1px;border-left:none;border-bottom:none}
+  .dynasty .br-bl,.dynasty .br-br{position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty .br-bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+  .dynasty .br-br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .dn-head{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  .dn-icon{width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .dn-icon svg{width:30px;height:30px}
+  .dn-titles .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .dn-titles h2{font-size:26px;font-weight:600;color:var(--gold-3);letter-spacing:.14em}
+  .dn-titles .sub{font-size:12px;color:var(--ink-3);letter-spacing:.12em;margin-top:4px;font-family:var(--serif-en)}
+  .dn-stats{display:flex;gap:18px;text-align:right}
+  .dn-stats .item{padding-left:18px;border-left:1px solid var(--line)}
+  .dn-stats .item:first-child{border-left:none;padding-left:0}
+  .dn-stats .k{font-size:10px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;font-family:var(--serif-en);margin-bottom:4px}
+  .dn-stats .v{font-size:16px;color:var(--gold-2);font-weight:500}
+
+  .dn-desc{font-size:14px;color:var(--ink-2);line-height:2;padding:0 8px 22px;margin-bottom:22px;border-bottom:1px dashed var(--line);position:relative}
+  .dn-desc::before{content:"";position:absolute;left:0;top:0;width:2px;height:100%;background:var(--gold-soft);opacity:.45}
+
+  /* ============ KING TABLE ============ */
+  .ktbl{width:100%;border-collapse:collapse}
+  .ktbl thead th{
+    padding:10px 14px;
+    font-size:10px;font-weight:400;letter-spacing:.32em;
+    color:var(--gold);text-align:left;text-transform:uppercase;
+    font-family:var(--serif-en);
+    border-bottom:1px solid var(--gold-soft);
+    background:rgba(201,164,74,.05);
+  }
+  .ktbl thead th.center{text-align:center}
+  .ktbl tbody tr{border-bottom:1px solid var(--line)}
+  .ktbl tbody tr:last-child{border-bottom:none}
+  .ktbl tbody tr:hover{background:rgba(201,164,74,.04)}
+  .ktbl tbody td{padding:18px 14px;vertical-align:middle}
+  .ktbl .num-cell{text-align:center;width:64px}
+  .ktbl .num-cell .seq{display:inline-block;font-family:var(--serif-en);font-size:11px;letter-spacing:.15em;color:var(--gold);padding:4px 9px;border:1px solid var(--gold-soft);min-width:38px}
+  .ktbl .num-cell .seq.highlight{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .ktbl .name-cell{min-width:160px}
+  .ktbl .name-cell .name{font-size:22px;font-weight:500;color:var(--ink);letter-spacing:.08em;line-height:1.2}
+  .ktbl .name-cell .read{font-size:11px;color:var(--gold-2);letter-spacing:.2em;margin-top:6px;font-family:var(--serif-en)}
+  .ktbl .yr-cell{width:140px;font-family:var(--serif-en);font-size:17px;color:var(--ink-2);letter-spacing:.06em;white-space:nowrap}
+  .ktbl .note-cell{font-size:13px;color:var(--ink-2);line-height:1.85}
+  .ktbl tbody tr.event td{background:rgba(160,64,48,.06)}
+  .ktbl .ev-tag{display:inline-block;margin-top:8px;padding:3px 10px;font-size:10px;letter-spacing:.2em;color:var(--red);border:1px solid rgba(160,64,48,.5);background:rgba(160,64,48,.08);font-family:var(--serif-en);text-transform:uppercase}
+  .ktbl .ev-tag.teal{color:var(--teal);border-color:rgba(62,136,112,.5);background:rgba(62,136,112,.08)}
+  .ktbl .ev-tag.gold{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.08)}
+
+  /* compact mode (sanzan) */
+  .ktbl.compact tbody td{padding:12px 10px}
+  .ktbl.compact .name-cell{min-width:0}
+  .ktbl.compact .name-cell .name{font-size:17px}
+  .ktbl.compact .name-cell .read{font-size:10px;margin-top:4px}
+  .ktbl.compact .yr-cell{width:auto;font-size:11px;white-space:normal}
+  .ktbl.compact .num-cell .seq{font-size:10px;padding:3px 7px;min-width:32px}
+
+  /* ============ MYTH SECTION ============ */
+  .myth{margin:0 0 8px;border:1px solid var(--line);background:var(--bg-2);padding:42px clamp(24px,4vw,52px)}
+  .myth .head{display:flex;align-items:center;gap:18px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .myth .head .icon{width:48px;height:48px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .myth .head .icon svg{width:26px;height:26px}
+  .myth .head h2{font-size:22px;font-weight:600;color:var(--gold-3);letter-spacing:.16em}
+  .myth .head .en{font-family:var(--serif-en);font-size:10px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-top:4px}
+  .myth p{font-size:14.5px;color:var(--ink);line-height:2.15;margin-bottom:18px;text-indent:1em}
+  .myth p:last-child{margin-bottom:0}
+  .myth .kw{color:var(--gold-3);font-weight:500;border-bottom:1px dotted var(--gold-soft);padding-bottom:1px}
+  .myth ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.05em}
+
+  /* ============ TRANSITION BANNER ============ */
+  .transition{margin:32px 0;border:1px solid var(--line);background:var(--bg-2);position:relative}
+  .transition .lbl{display:flex;align-items:center;gap:14px;padding:16px 24px;background:rgba(160,64,48,.08);border-bottom:1px solid var(--line)}
+  .transition .lbl .ico{width:30px;height:30px;color:var(--gold-2)}
+  .transition .lbl .ico svg{width:100%;height:100%}
+  .transition .lbl .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--red);text-transform:uppercase}
+  .transition .lbl .ttl{font-size:15px;color:var(--ink);letter-spacing:.12em;font-weight:500;flex:1}
+  .transition .lbl .yr{font-family:var(--serif-en);font-size:13px;color:var(--gold-2);letter-spacing:.12em}
+  .transition .body{padding:24px;font-size:14px;color:var(--ink-2);line-height:2.05}
+  .transition .body .red{color:var(--red);font-weight:500}
+  .transition .body .teal{color:var(--teal);font-weight:500}
+  .transition .body .gold{color:var(--gold-3);font-weight:500}
+  .transition .flow{display:flex;align-items:center;gap:14px;padding:16px 24px 4px;flex-wrap:wrap}
+  .transition .flow .pill{padding:6px 14px;border:1px solid var(--line-2);color:var(--ink-2);font-size:12px;letter-spacing:.14em}
+  .transition .flow .pill.from{color:var(--ink-3)}
+  .transition .flow .pill.to{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}
+  .transition .flow .arrow{color:var(--gold);font-family:var(--serif-en);font-size:14px;letter-spacing:.1em}
+
+  /* ============ SANZAN (Three Mountains) ============ */
+  .sanzan-note{font-size:13.5px;color:var(--ink-2);background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--gold);padding:18px 22px;margin-bottom:24px;line-height:1.95}
+  .sanzan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}
+  @media(max-width:780px){.sanzan-grid{grid-template-columns:1fr}}
+  .sblock{border:1px solid var(--line);background:var(--bg-2)}
+  .sblock .sh{padding:18px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:12px}
+  .sblock .sh .si{width:28px;height:28px;flex-shrink:0;color:var(--gold-2)}
+  .sblock .sh .si svg{width:100%;height:100%}
+  .sblock .sh .nm{font-size:16px;color:var(--gold-3);letter-spacing:.16em;font-weight:600}
+  .sblock .sh .lc{font-size:10px;letter-spacing:.18em;color:var(--ink-3);margin-top:4px}
+  .sblock.hokuz .si{color:#7aa9d4}
+  .sblock.chuz  .si{color:var(--gold-2)}
+  .sblock.nanz  .si{color:#c98870}
+
+  /* ============ MODERN LIST ============ */
+  .modern{padding:14px 8px 0}
+  .modern .item{display:grid;grid-template-columns:30px 130px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .modern .item:last-child{border-bottom:none}
+  .modern .dot{width:8px;height:8px;border:1px solid var(--gold);transform:rotate(45deg);margin:0 auto}
+  .modern .yr{font-family:var(--serif-en);font-size:15px;color:var(--gold-2);letter-spacing:.1em}
+  .modern .lbl{font-size:14px;color:var(--ink);letter-spacing:.06em}
+
+  /* ============ FOOTER ============ */
+  .footer{margin:80px 0 0;padding:36px 0 48px;border-top:1px solid var(--line);text-align:center}
+  .footer .crest-sm{display:flex;justify-content:center;margin-bottom:18px}
+  .footer .crest-sm svg{width:36px;height:36px;opacity:.75}
+  .footer .src{font-size:11px;letter-spacing:.18em;color:var(--ink-3);line-height:2}
+  .footer .src strong{color:var(--gold-2);font-weight:500}
+  .footer .note{font-size:10px;color:var(--ink-3);margin-top:14px;letter-spacing:.12em}
+
+  /* ============ SOURCE NOTE ============ */
+  .src-note{margin-top:18px;padding-top:12px;border-top:1px dotted var(--line);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.95}
+  .src-note b{display:inline-block;color:var(--gold-soft);font-weight:400;letter-spacing:.28em;font-family:var(--serif-en);text-transform:uppercase;margin-right:10px}
+
+  /* ============ UTILITIES ============ */
+  ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.04em;font-family:var(--serif-en);font-weight:400}
+  .ev-row{position:relative}
+
+  /* badge bar (compact summary above table) */
+  .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;padding:14px 16px;border:1px dashed var(--line);background:rgba(201,164,74,.03)}
+  .badge{padding:6px 11px;border:1px solid var(--line-2);font-size:11px;color:var(--ink-2);letter-spacing:.1em;display:inline-flex;align-items:center;gap:6px}
+  .badge .b-n{font-family:var(--serif-en);font-size:9px;color:var(--gold);letter-spacing:.15em}
+  .badge.hl{border-color:var(--gold);color:var(--gold-3);background:rgba(201,164,74,.08)}
+
+  /* small chip for residence */
+  .residence{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--gold-2);letter-spacing:.16em;padding:5px 10px;border:1px solid var(--gold-soft);background:rgba(201,164,74,.05)}
+  .residence svg{width:12px;height:12px}
+
+  @media(max-width:680px){
+    .dn-head{grid-template-columns:1fr;text-align:left;gap:14px}
+    .dn-stats{justify-content:flex-start}
+    .ktbl thead{display:none}
+    .ktbl tbody td{display:block;padding:6px 12px;border:none}
+    .ktbl tbody tr{padding:14px 4px;display:block}
+    .ktbl .num-cell{text-align:left;width:auto}
+    .ktbl .name-cell .name{font-size:20px}
+    .ktbl .yr-cell{font-size:12px}
+    .masthead h1{font-size:30px}
+  }
+</style>
+<style>
+a{color:var(--gold-2);text-decoration:none}a:hover{color:var(--gold-3)}
+.sitenav{position:sticky;top:0;z-index:30;display:flex;justify-content:center;gap:4px;background:rgba(12,10,7,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.sitenav a{padding:14px 22px;font-size:13px;letter-spacing:.2em;color:var(--ink-2);border-bottom:2px solid transparent}
+.sitenav a:hover{color:var(--gold-3)}.sitenav a.on{color:var(--gold-3);border-bottom-color:var(--gold)}
+.sitenav{gap:12px;padding:14px 16px;background:rgba(12,10,7,.95);border-bottom:1px solid var(--gold-soft);box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.sitenav a{padding:11px 30px;font-size:16px;font-weight:600;letter-spacing:.22em;color:var(--gold-2);border:1px solid var(--gold-soft);background:rgba(201,164,74,.05);transition:background .2s,color .2s,border-color .2s}
+.sitenav a:hover{color:var(--gold-3);border-color:var(--gold);background:rgba(201,164,74,.12)}
+.sitenav a.on{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+@media(max-width:680px){.sitenav{gap:6px;padding:10px 8px}.sitenav a{padding:9px 12px;font-size:13px;letter-spacing:.08em}}
+.band{position:relative;overflow:hidden;padding:46px 0 36px;text-align:center;border-bottom:1px solid var(--line)}
+.band .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;opacity:.34;filter:saturate(.6) sepia(.2);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent);mask-image:linear-gradient(180deg,#000 30%,transparent);pointer-events:none}
+.band>*:not(.bg){position:relative}
+.band .mon{width:40px;height:40px;display:block;margin:0 auto 16px;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%)}
+.band .en{font-family:var(--serif-en);font-size:12px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.band h1{font-weight:600;font-size:clamp(28px,4.4vw,42px);color:var(--gold-3);letter-spacing:.18em;text-indent:.18em;line-height:1.3}
+.band .subtitle{margin-top:10px;font-size:13px;letter-spacing:.24em;color:var(--ink-2)}
+.filter{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:36px 0 0}
+.filter button{background:none;border:1px solid var(--line-2);color:var(--ink-2);font-family:var(--serif);padding:8px 16px;font-size:12px;letter-spacing:.18em;cursor:pointer}
+.filter button:hover{color:var(--gold-3)}.filter button.on{border-color:var(--gold);color:var(--gold-3);background:rgba(201,164,74,.08)}
+.doc{display:grid;grid-template-columns:120px minmax(0,1fr);gap:26px;padding:26px 0;border-bottom:1px solid var(--line)}
+.doc{scroll-margin-top:70px}.doc:target{background:rgba(201,164,74,.07);box-shadow:-14px 0 0 rgba(201,164,74,.07),14px 0 0 rgba(201,164,74,.07)}.doc:target h3{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px}.doc:first-of-type{padding-top:4px}.doc:last-child{border-bottom:none;padding-bottom:0}
+.doc .y{font-family:var(--serif-en);font-size:24px;line-height:1.2;color:var(--gold-2);letter-spacing:.04em}
+.doc .y small{display:block;margin-top:6px;font-family:var(--serif);font-size:11px;color:var(--ink-3);letter-spacing:.1em;line-height:1.6}
+.doc h3{font-size:21px;font-weight:600;color:var(--gold-3);letter-spacing:.1em;line-height:1.5}
+.doc h3 rt{font-family:var(--serif);font-size:.5em;color:var(--gold-2);letter-spacing:.08em}
+.doc .meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.tag{font-size:10.5px;padding:3px 10px;border:1px solid var(--line-2);color:var(--ink-2);letter-spacing:.14em}
+.tag.r-ryukyu{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}
+.tag.r-yamato{color:#d09a84;border-color:rgba(201,136,112,.5)}
+.tag.r-china{color:#d07a6a;border-color:rgba(160,64,48,.6);background:rgba(160,64,48,.08)}
+.tag.r-korea{color:#8db6dc;border-color:rgba(122,169,212,.5)}
+.tag.r-west{color:#7cc0a8;border-color:rgba(62,136,112,.6)}
+.doc p{font-size:14px;color:var(--ink-2);line-height:2.05;text-wrap:pretty}
+.doc p+p{margin-top:8px}
+.doc .kw{color:var(--gold-3);font-weight:500}
+.doc .dissent{margin-top:10px;padding:10px 14px;border:1px dashed rgba(62,136,112,.5);font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.doc .dissent b{color:var(--teal);font-weight:500;letter-spacing:.1em;margin-right:8px}
+.doc .src-note{margin-top:12px}
+.pager{display:flex;justify-content:center;margin:64px 0 0}
+.pager a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 44px;border:1px solid var(--gold-soft);color:var(--gold-3);font-size:16px;letter-spacing:.2em}
+.pager a small{font-family:var(--serif-en);font-size:11px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase}
+.pager a:hover{background:rgba(201,164,74,.06);border-color:var(--gold)}
+@media(max-width:680px){.doc{grid-template-columns:1fr;gap:8px}.sitenav a{padding:12px 12px;font-size:12px;letter-spacing:.1em}}
+.tag.c-pol{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}.tag.c-dip{color:#d07a6a;border-color:rgba(160,64,48,.6)}.tag.c-cul{color:#8db6dc;border-color:rgba(122,169,212,.5)}.tag.c-ind{color:#7cc0a8;border-color:rgba(62,136,112,.6)}.tag.c-reg{color:#d09a84;border-color:rgba(201,136,112,.5)}
+.doc .alias{font-size:12px;color:var(--ink-3);letter-spacing:.12em;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="page">
+<nav class="sitenav"><a href="琉球歴代王統年表.html">歴代王統年表</a><a href="琉球史料集成.html">史料集成</a><a href="琉球人物誌.html" class="on">人物誌</a></nav>
+<header class="band inner"><img class="bg" src="assets/shuri-photo-3.jpg" alt=""><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"><div class="en">People of Ryukyu</div><h1>琉球人物誌</h1><div class="subtitle">政治家と偉人を年代順に</div></header>
+<div class="inner">
+<div class="filter" id="filter"><button class="on" data-f="all">すべて</button><button data-f="pol">政治</button><button data-f="dip">外交</button><button data-f="cul">文化</button><button data-f="ind">産業</button><button data-f="reg">地方</button></div>
+<div class="sanzan-note" style="margin-top:28px">琉球王国とその後の沖縄で、政治・外交・文化・産業に名を残した人々を年代順に並べた。国王は「歴代王統年表」に載せている。王府の史書が伝える人物像には書き手の立場が反映していることがあり、評価が分かれる点は「諸説」に記した。</div>
+<section class="cent" data-screen-label="古琉球"><div class="era"><div class="nub"></div><div class="name">古琉球</div><div class="years">7人</div><div class="line"></div><div class="roman">14th – 16th C.</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="泰期" data-c="dip"><div class="y">14C後半</div><div><h3><ruby>泰期<rt>たいき</rt></ruby></h3><div class="meta"><span class="tag c-dip">外交</span><span class="tag">察度王の弟とされる</span></div><p>1372年、明の洪武帝の使者・楊載の招諭を受け、中山王察度の命で明へ渡った。<span class="kw">琉球最初の正式な入貢使節</span>で、以後もたびたび進貢使として渡明し、馬や硫黄を献じた。</p><div class="src-note"><b>Source</b>『明実録』太祖実録／琉球王国交流史デジタルアーカイブ</div></div></div><div class="doc" id="懐機" data-c="pol dip"><div class="y">15C前半</div><div><h3><ruby>懐機<rt>かいき</rt></ruby></h3><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-dip">外交</span><span class="tag">第一尚氏の国相</span></div><p>中国出身とされ、尚巴志から尚金福まで王府の国相を務めた。1427年に龍潭と安国山を造り、1451年には首里と浮島（那覇）を結ぶ海中道路・<span class="kw">長虹堤</span>を築いた。長寿宮（浮島神社）を創建したとも伝わる。</p><div class="src-note"><b>Source</b>安国山樹華木記碑／『球陽』</div></div></div><div class="doc" id="護佐丸" data-c="pol"><div class="y">? — 1458</div><div><h3><ruby>護佐丸<rt>ごさまる</rt></ruby></h3><div class="alias">中城按司</div><div class="meta"><span class="tag c-pol">政治</span><span class="tag">読谷山・中城の按司</span></div><p>尚巴志の三山統一に従って功を立て、<span class="kw">座喜味城</span>を築いた。のち勝連の阿麻和利を抑えるため中城城へ移される。1458年、阿麻和利に謀反を訴えられ、王府軍に囲まれて自害したと伝わる（護佐丸・阿麻和利の乱）。</p><div class="dissent"><b>諸説</b>王府の史書は護佐丸を忠臣、阿麻和利を逆臣とするが、尚泰久王が両者を抑えようとしたとする見方など、事件の実像には諸説ある。</div><div class="src-note"><b>Source</b>『中山世鑑』『球陽』／ 中城村教育委員会</div></div></div><div class="doc" id="阿麻和利" data-c="pol"><div class="y">? — 1458</div><div><h3><ruby>阿麻和利<rt>あまわり</rt></ruby></h3><div class="meta"><span class="tag c-pol">政治</span><span class="tag">勝連按司</span></div><p>貧しい生まれから勝連の按司となり、海外交易で勝連城を栄えさせたと伝わる。護佐丸を討ったのち王位をねらったとして、1458年に首里の軍に滅ぼされた。</p><div class="dissent"><b>諸説</b>『おもろさうし』には勝連と阿麻和利を称える歌があり、王府の史書が描く逆臣像とは異なる姿を伝えている。</div><div class="src-note"><b>Source</b>『おもろさうし』／ うるま市教育委員会「勝連城跡」</div></div></div><div class="doc" id="オヤケアカハチ" data-c="reg"><div class="y">? — 1500</div><div><h3><ruby>オヤケアカハチ<rt>おやけあかはち</rt></ruby></h3><div class="alias">遠弥計赤蜂</div><div class="meta"><span class="tag c-reg">地方</span><span class="tag">八重山・石垣島の首長</span></div><p>石垣島の大浜を拠点とした首長。首里王府への貢納を拒んだとされ、1500年、尚真王が送った軍と宮古の仲宗根豊見親らに討たれた。この戦いで八重山は王府の支配下に組み込まれた。</p><div class="dissent"><b>諸説</b>王府側では反乱者とされるが、八重山では島を守った英雄として語り継がれ、大浜には顕彰碑が建つ。</div><div class="src-note"><b>Source</b>『球陽』／ 石垣市教育委員会</div></div></div><div class="doc" id="仲宗根豊見親" data-c="reg"><div class="y">15C後半 — 16C前半</div><div><h3><ruby>仲宗根豊見親<rt>なかそねとぅゆみゃ</rt></ruby></h3><div class="meta"><span class="tag c-reg">地方</span><span class="tag">宮古の首長</span></div><p>宮古島を治めた首長。1500年、王府軍に加わってオヤケアカハチを討ち、のち宮古の頭職に任じられた。首里の王府と結んで宮古・八重山の秩序をつくった人物である。</p><div class="src-note"><b>Source</b>『球陽』／ 宮古島市教育委員会</div></div></div><div class="doc" id="謝名親方_鄭迵" data-c="pol dip"><div class="y">1549 — 1611</div><div><h3><ruby>謝名親方 鄭迵<rt>じゃなうぇーかた ていどう</rt></ruby></h3><div class="alias">謝名利山</div><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-dip">外交</span><span class="tag">三司官</span></div><p>久米村出身で明の国子監に学び、三司官となった。薩摩の要求に強く反対し、1609年の侵攻後、尚寧王とともに鹿児島へ連行された。<span class="kw">薩摩への忠誠を誓う起請文への署名を拒み</span>、1611年に処刑された。</p><div class="src-note"><b>Source</b>『喜安日記』／『中山世譜』</div></div></div></article></section><section class="cent" data-screen-label="近世琉球"><div class="era"><div class="nub"></div><div class="name">近世琉球</div><div class="years">11人</div><div class="line"></div><div class="roman">1609 – 1879</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="野国総管" data-c="ind"><div class="y">17C初め</div><div><h3><ruby>野国総管<rt>のぐにそうかん</rt></ruby></h3><div class="meta"><span class="tag c-ind">産業</span><span class="tag">進貢船の総管</span></div><p>進貢船の事務長にあたる総管として明に渡り、1605年、福建から<span class="kw">甘藷（サツマイモ）</span>の苗を持ち帰って郷里の野国村（現・嘉手納町）で育てた。甘藷はのちに薩摩を経て日本各地へ広まった。</p><div class="src-note"><b>Source</b>嘉手納町教育委員会／『球陽』</div></div></div><div class="doc" id="儀間真常" data-c="ind"><div class="y">1557 — 1644</div><div><h3><ruby>儀間真常<rt>ぎましんじょう</rt></ruby></h3><div class="meta"><span class="tag c-ind">産業</span><span class="tag">真和志間切の地頭</span></div><p>野国総管から甘藷を受け継いで琉球中に広めた。さらに木綿の栽培と織物を薩摩から、1623年には人を中国へ遣わして<span class="kw">黒糖の製法</span>を取り入れ、近世琉球の産業の基礎をつくった。</p><div class="src-note"><b>Source</b>『球陽』／ 那覇市歴史博物館</div></div></div><div class="doc" id="羽地朝秀" data-c="pol cul"><div class="y">1617 — 1675</div><div><h3><ruby>羽地朝秀<rt>はねじちょうしゅう</rt></ruby></h3><div class="alias">向象賢</div><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-cul">文化</span><span class="tag">摂政</span></div><p>1650年、琉球最初の正史<span class="kw">『中山世鑑』</span>を編んだ。1666年に摂政となると、王府の儀礼や神女の制度を簡素にし、財政を立て直す改革を進めた。その指示をまとめたものが『羽地仕置』である。</p><div class="src-note"><b>Source</b>『中山世鑑』『羽地仕置』</div></div></div><div class="doc" id="程順則" data-c="cul dip"><div class="y">1663 — 1734</div><div><h3><ruby>程順則<rt>ていじゅんそく</rt></ruby></h3><div class="alias">名護親方</div><div class="meta"><span class="tag c-cul">文化</span><span class="tag c-dip">外交</span><span class="tag">名護間切の総地頭</span></div><p>久米村出身。清から教訓書<span class="kw">『六諭衍義』</span>を持ち帰り、のちに薩摩を通じて徳川吉宗に献じられた。吉宗は室鳩巣に和訳させ、『六諭衍義大意』は江戸時代の寺子屋で教科書として広く読まれた。「名護聖人」と呼ばれる。</p><div class="src-note"><b>Source</b>名護市教育委員会／『六諭衍義大意』</div></div></div><div class="doc" id="蔡温" data-c="pol ind"><div class="y">1682 — 1762</div><div><h3><ruby>蔡温<rt>さいおん</rt></ruby></h3><div class="alias">具志頭親方文若</div><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-ind">産業</span><span class="tag">三司官</span></div><p>久米村出身。尚敬王の国師、1728年から三司官を務めた。山林の管理を定めた『杣山法式帳』、羽地大川の改修など、<span class="kw">林業と治水</span>に力を注いだ。『中山世譜』の改訂も行っている。</p><div class="src-note"><b>Source</b>『中山世譜』／ 沖縄県立図書館</div></div></div><div class="doc" id="玉城朝薫" data-c="cul"><div class="y">1684 — 1734</div><div><h3><ruby>玉城朝薫<rt>たまぐすくちょうくん</rt></ruby></h3><div class="meta"><span class="tag c-cul">文化</span><span class="tag">踊奉行</span></div><p>1719年、尚敬王の冊封使をもてなすため、<span class="kw">組踊</span>を創始した。『二童敵討』『執心鐘入』など朝薫の作品は「朝薫五番」と呼ばれ、組踊は2010年にユネスコ無形文化遺産に登録された。</p><div class="src-note"><b>Source</b>国立劇場おきなわ／ 文化庁</div></div></div><div class="doc" id="平敷屋朝敏" data-c="cul"><div class="y">1700 — 1734</div><div><h3><ruby>平敷屋朝敏<rt>へしきやちょうびん</rt></ruby></h3><div class="meta"><span class="tag c-cul">文化</span><span class="tag">文人</span></div><p>和文の物語『苔の下』『貧家記』などを著した、琉球を代表する和文学の書き手。1734年、王府を批判する文書に関わったとして仲間とともに処刑された。</p><div class="src-note"><b>Source</b>『沖縄大百科事典』／ 沖縄県立図書館</div></div></div><div class="doc" id="恩納ナビー" data-c="cul"><div class="y">18C</div><div><h3><ruby>恩納ナビー<rt>おんななびー</rt></ruby></h3><div class="meta"><span class="tag c-cul">文化</span><span class="tag">歌人</span></div><p>恩納間切の農村に生まれた女性歌人。琉歌に、のびやかで率直な恋や暮らしの歌を残した。吉屋チルーと並んで<span class="kw">琉球の二大女流歌人</span>とされる。</p><div class="dissent"><b>諸説</b>生没年や経歴を伝える確かな記録はなく、伝わる歌の多くも伝承によっている。</div><div class="src-note"><b>Source</b>恩納村博物館</div></div></div><div class="doc" id="牧志朝忠" data-c="dip"><div class="y">1818 — 1862</div><div><h3><ruby>牧志朝忠<rt>まきしちょうちゅう</rt></ruby></h3><div class="meta"><span class="tag c-dip">外交</span><span class="tag">通事</span></div><p>清に留学して中国語と英語を身につけ、1853年から来航した<span class="kw">ペリー艦隊との応接で通訳</span>を務めた。のち王府内の政争に巻き込まれ、1862年、薩摩へ送られる船から身を投げたと伝わる。</p><div class="src-note"><b>Source</b>『ペリー艦隊日本遠征記』／ 那覇市歴史博物館</div></div></div><div class="doc" id="宜湾朝保" data-c="pol cul"><div class="y">1823 — 1876</div><div><h3><ruby>宜湾朝保<rt>ぎわんちょうほ</rt></ruby></h3><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-cul">文化</span><span class="tag">三司官</span></div><p>1862年から三司官を務め、和歌に優れた歌人でもあった。1872年、明治政府への慶賀使の副使として上京し、<span class="kw">琉球藩の設置</span>を受け入れた。このため王府内で強い非難を受け、職を退いた。</p><div class="src-note"><b>Source</b>『沖縄県史』／ 沖縄県公文書館</div></div></div><div class="doc" id="林世功" data-c="dip"><div class="y">1842 — 1880</div><div><h3><ruby>林世功<rt>りんせいこう</rt></ruby></h3><div class="alias">名城里之子親雲上</div><div class="meta"><span class="tag c-dip">外交</span><span class="tag">官生</span></div><p>久米村出身で清の国子監に学んだ。琉球処分ののち清へ渡って<span class="kw">琉球の救国</span>を訴えたが、聞き入れられないまま、1880年に北京で自刃した。</p><div class="src-note"><b>Source</b>『沖縄県史』／ 那覇市歴史博物館</div></div></div></article></section><section class="cent" data-screen-label="近代・現代"><div class="era"><div class="nub"></div><div class="name">近代・現代</div><div class="years">4人</div><div class="line"></div><div class="roman">1879 —</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="謝花昇" data-c="pol ind"><div class="y">1865 — 1908</div><div><h3><ruby>謝花昇<rt>じゃはなのぼる</rt></ruby></h3><div class="meta"><span class="tag c-pol">政治</span><span class="tag c-ind">産業</span><span class="tag">県技師・民権運動家</span></div><p>県費留学生として東京で学び、帝国大学農科大学を卒業した<span class="kw">沖縄県出身の最初の学士</span>。県の技師となったが奈良原繁知事と対立して辞職し、1899年に沖縄倶楽部をつくって県民の参政権を求めた。「沖縄の自由民権運動の父」と呼ばれる。</p><div class="src-note"><b>Source</b>八重瀬町教育委員会／『沖縄県史』</div></div></div><div class="doc" id="當山久三" data-c="ind"><div class="y">1868 — 1910</div><div><h3><ruby>當山久三<rt>とうやまきゅうぞう</rt></ruby></h3><div class="meta"><span class="tag c-ind">産業</span><span class="tag">移民運動家</span></div><p>謝花昇とともに民権運動に加わり、のち海外移民を進めた。1899年、沖縄からの<span class="kw">最初のハワイ移民</span>を送り出し、「移民の父」と呼ばれる。</p><div class="src-note"><b>Source</b>金武町教育委員会／ 沖縄県移民資料</div></div></div><div class="doc" id="伊波普猷" data-c="cul"><div class="y">1876 — 1947</div><div><h3><ruby>伊波普猷<rt>いはふゆう</rt></ruby></h3><div class="meta"><span class="tag c-cul">文化</span><span class="tag">言語学者・民俗学者</span></div><p>東京帝国大学で言語学を学び、『おもろさうし』を研究した。1911年に<span class="kw">『古琉球』</span>を刊行し、沖縄県立図書館の初代館長も務めた。言語・歴史・民俗をまとめて研究する「沖縄学」の基礎を築いた。</p><div class="src-note"><b>Source</b>伊波普猷『古琉球』／ 沖縄県立図書館</div></div></div><div class="doc" id="屋良朝苗" data-c="pol"><div class="y">1902 — 1997</div><div><h3><ruby>屋良朝苗<rt>やらちょうびょう</rt></ruby></h3><div class="meta"><span class="tag c-pol">政治</span><span class="tag">行政主席・県知事</span></div><p>教員から沖縄教職員会の会長となり、本土復帰運動を進めた。1968年、<span class="kw">最初の公選による琉球政府行政主席</span>に選ばれ、1972年の本土復帰後は沖縄県の初代知事を務めた。</p><div class="src-note"><b>Source</b>沖縄県公文書館「屋良朝苗日誌」</div></div></div></article></section>
+<div class="pager" style="gap:14px;flex-wrap:wrap"><a href="琉球史料集成.html"><small>Back</small>← 史料集成へ</a><a href="琉球歴代王統年表.html"><small>Top</small>歴代王統年表へ</a></div>
+<footer class="footer"><div class="crest-sm"><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"></div><div class="note">※ 生没年・事績は主に王府の史書と自治体・博物館の解説による。「諸説」は解釈が分かれている点。</div></footer>
+</div>
+</div>
+<script>
+(function(){var bs=document.querySelectorAll('#filter button');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.toggle('on',x===b)});var f=b.dataset.f;document.querySelectorAll('.cent').forEach(function(s){var n=0;s.querySelectorAll('.doc').forEach(function(d){var show=f==='all'||d.dataset.c.split(' ').indexOf(f)>-1;d.style.display=show?'':'none';if(show)n++});s.style.display=n?'':'none';s.querySelector('.years').textContent=n+'人'})})})})();
+</script>
+</body>
+</html>

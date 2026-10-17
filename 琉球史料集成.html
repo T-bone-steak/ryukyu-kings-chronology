@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>琉球史料集成 ── 書物・碑文・外国史料</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0c0a07;
+    --bg-2:#15110a;
+    --bg-3:#1d1810;
+    --line:#3a2f18;
+    --line-2:#52421f;
+    --gold:#c9a44a;
+    --gold-2:#e0bf6c;
+    --gold-3:#f0d894;
+    --gold-soft:#8a7332;
+    --ink:#ece1c4;
+    --ink-2:#b8a980;
+    --ink-3:#7a6f54;
+    --red:#a04030;
+    --teal:#3e8870;
+    --serif:'Shippori Mincho','Noto Serif JP',serif;
+    --serif-en:'Cormorant Garamond',serif;
+  }
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+  body{font-size:15px;line-height:1.85}
+
+  /* ============ LAYOUT ============ */
+  .page{max-width:1080px;margin:0 auto;background:linear-gradient(180deg,#100c08 0%,#0c0a07 220px);}
+  .inner{padding:0 clamp(20px,5vw,64px)}
+
+  /* ============ HEADER ============ */
+  .masthead{padding:72px 0 64px;text-align:center;position:relative;overflow:hidden}
+  .shuri-photo{position:absolute;inset:0;z-index:0;pointer-events:none;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+  }
+  .shuri-photo img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;filter:saturate(.7) sepia(.1) brightness(1.15);
+    transition:opacity 1.6s ease;
+  }
+  .shuri-photo img.active{opacity:.68}
+  .shuri-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse 70% 80% at 50% 45%, rgba(12,10,7,.55), rgba(12,10,7,.15) 60%, transparent);
+  }
+  .masthead > *:not(.shuri-photo):not(.shuri-scrim){position:relative;z-index:2}
+  .crest{display:flex;justify-content:center;margin-bottom:28px}
+
+  /* ---- header animation ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .shuri-photo img.active{animation:photo-in 2.4s ease both}
+    @keyframes photo-in{from{opacity:0}to{opacity:.68}}
+    .crest img.mon{animation:mon-spin 90s linear infinite, rise .9s ease both}
+    @keyframes mon-spin{to{rotate:-360deg}}
+    .masthead .en{animation:rise .8s ease .15s both}
+    .masthead h1{animation:rise .9s ease .3s both}
+    .masthead .subtitle{animation:rise .9s ease .5s both}
+    .masthead .rule{animation:rule-grow 1.2s ease .7s both}
+    .masthead .meta{animation:rise .9s ease .9s both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes rule-grow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+  }
+  .crest svg{width:64px;height:64px;display:block}
+  .crest img.mon{width:64px;height:64px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.95}
+  .footer .crest-sm img.mon{width:36px;height:36px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.75}
+  .masthead .en{font-family:var(--serif-en);font-size:13px;letter-spacing:.42em;color:var(--gold-3);text-transform:uppercase;margin-bottom:18px;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead h1{font-family:var(--serif);font-weight:600;font-size:clamp(42px,6.2vw,64px);color:var(--gold-3);letter-spacing:.18em;line-height:1.3;text-indent:.18em}
+  .masthead .subtitle{margin-top:14px;font-size:13px;letter-spacing:.3em;color:#d6c8a0;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead .rule{width:280px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px auto 0}
+  .masthead .meta{margin-top:18px;font-size:11px;letter-spacing:.18em;color:#a9997a;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+
+  /* ============ ORNAMENTAL DIVIDERS ============ */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:64px 0 28px}
+  .ornament .line{flex:1;max-width:240px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-soft),var(--gold),var(--gold-soft),transparent)}
+  .ornament .mark{display:flex;align-items:center;gap:10px;color:var(--gold-2);font-size:11px;letter-spacing:.4em;text-transform:uppercase;font-family:var(--serif-en)}
+  .ornament .diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+
+  /* ============ ERA BANNER ============ */
+  .era{margin:56px 0 22px;display:flex;align-items:center;gap:18px}
+  .era .nub{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+  .era .name{font-size:18px;font-weight:600;color:var(--gold-2);letter-spacing:.22em;white-space:nowrap}
+  .era .years{font-family:var(--serif-en);font-size:13px;color:var(--ink-2);letter-spacing:.18em;white-space:nowrap}
+  .era .line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
+  .era .roman{font-family:var(--serif-en);font-size:11px;letter-spacing:.5em;color:var(--gold-soft);text-transform:uppercase;white-space:nowrap}
+
+  /* ============ DYNASTY CARD ============ */
+  .dynasty{margin-bottom:8px;border:1px solid var(--line);background:var(--bg-2);padding:36px clamp(20px,3vw,42px) 32px;position:relative}
+  .dynasty::before,.dynasty::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .dynasty::after{top:-1px;right:-1px;border-left:none;border-bottom:none}
+  .dynasty .br-bl,.dynasty .br-br{position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty .br-bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+  .dynasty .br-br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .dn-head{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  .dn-icon{width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .dn-icon svg{width:30px;height:30px}
+  .dn-titles .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .dn-titles h2{font-size:26px;font-weight:600;color:var(--gold-3);letter-spacing:.14em}
+  .dn-titles .sub{font-size:12px;color:var(--ink-3);letter-spacing:.12em;margin-top:4px;font-family:var(--serif-en)}
+  .dn-stats{display:flex;gap:18px;text-align:right}
+  .dn-stats .item{padding-left:18px;border-left:1px solid var(--line)}
+  .dn-stats .item:first-child{border-left:none;padding-left:0}
+  .dn-stats .k{font-size:10px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;font-family:var(--serif-en);margin-bottom:4px}
+  .dn-stats .v{font-size:16px;color:var(--gold-2);font-weight:500}
+
+  .dn-desc{font-size:14px;color:var(--ink-2);line-height:2;padding:0 8px 22px;margin-bottom:22px;border-bottom:1px dashed var(--line);position:relative}
+  .dn-desc::before{content:"";position:absolute;left:0;top:0;width:2px;height:100%;background:var(--gold-soft);opacity:.45}
+
+  /* ============ KING TABLE ============ */
+  .ktbl{width:100%;border-collapse:collapse}
+  .ktbl thead th{
+    padding:10px 14px;
+    font-size:10px;font-weight:400;letter-spacing:.32em;
+    color:var(--gold);text-align:left;text-transform:uppercase;
+    font-family:var(--serif-en);
+    border-bottom:1px solid var(--gold-soft);
+    background:rgba(201,164,74,.05);
+  }
+  .ktbl thead th.center{text-align:center}
+  .ktbl tbody tr{border-bottom:1px solid var(--line)}
+  .ktbl tbody tr:last-child{border-bottom:none}
+  .ktbl tbody tr:hover{background:rgba(201,164,74,.04)}
+  .ktbl tbody td{padding:18px 14px;vertical-align:middle}
+  .ktbl .num-cell{text-align:center;width:64px}
+  .ktbl .num-cell .seq{display:inline-block;font-family:var(--serif-en);font-size:11px;letter-spacing:.15em;color:var(--gold);padding:4px 9px;border:1px solid var(--gold-soft);min-width:38px}
+  .ktbl .num-cell .seq.highlight{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .ktbl .name-cell{min-width:160px}
+  .ktbl .name-cell .name{font-size:22px;font-weight:500;color:var(--ink);letter-spacing:.08em;line-height:1.2}
+  .ktbl .name-cell .read{font-size:11px;color:var(--gold-2);letter-spacing:.2em;margin-top:6px;font-family:var(--serif-en)}
+  .ktbl .yr-cell{width:140px;font-family:var(--serif-en);font-size:17px;color:var(--ink-2);letter-spacing:.06em;white-space:nowrap}
+  .ktbl .note-cell{font-size:13px;color:var(--ink-2);line-height:1.85}
+  .ktbl tbody tr.event td{background:rgba(160,64,48,.06)}
+  .ktbl .ev-tag{display:inline-block;margin-top:8px;padding:3px 10px;font-size:10px;letter-spacing:.2em;color:var(--red);border:1px solid rgba(160,64,48,.5);background:rgba(160,64,48,.08);font-family:var(--serif-en);text-transform:uppercase}
+  .ktbl .ev-tag.teal{color:var(--teal);border-color:rgba(62,136,112,.5);background:rgba(62,136,112,.08)}
+  .ktbl .ev-tag.gold{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.08)}
+
+  /* compact mode (sanzan) */
+  .ktbl.compact tbody td{padding:12px 10px}
+  .ktbl.compact .name-cell{min-width:0}
+  .ktbl.compact .name-cell .name{font-size:17px}
+  .ktbl.compact .name-cell .read{font-size:10px;margin-top:4px}
+  .ktbl.compact .yr-cell{width:auto;font-size:11px;white-space:normal}
+  .ktbl.compact .num-cell .seq{font-size:10px;padding:3px 7px;min-width:32px}
+
+  /* ============ MYTH SECTION ============ */
+  .myth{margin:0 0 8px;border:1px solid var(--line);background:var(--bg-2);padding:42px clamp(24px,4vw,52px)}
+  .myth .head{display:flex;align-items:center;gap:18px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .myth .head .icon{width:48px;height:48px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .myth .head .icon svg{width:26px;height:26px}
+  .myth .head h2{font-size:22px;font-weight:600;color:var(--gold-3);letter-spacing:.16em}
+  .myth .head .en{font-family:var(--serif-en);font-size:10px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-top:4px}
+  .myth p{font-size:14.5px;color:var(--ink);line-height:2.15;margin-bottom:18px;text-indent:1em}
+  .myth p:last-child{margin-bottom:0}
+  .myth .kw{color:var(--gold-3);font-weight:500;border-bottom:1px dotted var(--gold-soft);padding-bottom:1px}
+  .myth ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.05em}
+
+  /* ============ TRANSITION BANNER ============ */
+  .transition{margin:32px 0;border:1px solid var(--line);background:var(--bg-2);position:relative}
+  .transition .lbl{display:flex;align-items:center;gap:14px;padding:16px 24px;background:rgba(160,64,48,.08);border-bottom:1px solid var(--line)}
+  .transition .lbl .ico{width:30px;height:30px;color:var(--gold-2)}
+  .transition .lbl .ico svg{width:100%;height:100%}
+  .transition .lbl .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--red);text-transform:uppercase}
+  .transition .lbl .ttl{font-size:15px;color:var(--ink);letter-spacing:.12em;font-weight:500;flex:1}
+  .transition .lbl .yr{font-family:var(--serif-en);font-size:13px;color:var(--gold-2);letter-spacing:.12em}
+  .transition .body{padding:24px;font-size:14px;color:var(--ink-2);line-height:2.05}
+  .transition .body .red{color:var(--red);font-weight:500}
+  .transition .body .teal{color:var(--teal);font-weight:500}
+  .transition .body .gold{color:var(--gold-3);font-weight:500}
+  .transition .flow{display:flex;align-items:center;gap:14px;padding:16px 24px 4px;flex-wrap:wrap}
+  .transition .flow .pill{padding:6px 14px;border:1px solid var(--line-2);color:var(--ink-2);font-size:12px;letter-spacing:.14em}
+  .transition .flow .pill.from{color:var(--ink-3)}
+  .transition .flow .pill.to{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}
+  .transition .flow .arrow{color:var(--gold);font-family:var(--serif-en);font-size:14px;letter-spacing:.1em}
+
+  /* ============ SANZAN (Three Mountains) ============ */
+  .sanzan-note{font-size:13.5px;color:var(--ink-2);background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--gold);padding:18px 22px;margin-bottom:24px;line-height:1.95}
+  .sanzan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}
+  @media(max-width:780px){.sanzan-grid{grid-template-columns:1fr}}
+  .sblock{border:1px solid var(--line);background:var(--bg-2)}
+  .sblock .sh{padding:18px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:12px}
+  .sblock .sh .si{width:28px;height:28px;flex-shrink:0;color:var(--gold-2)}
+  .sblock .sh .si svg{width:100%;height:100%}
+  .sblock .sh .nm{font-size:16px;color:var(--gold-3);letter-spacing:.16em;font-weight:600}
+  .sblock .sh .lc{font-size:10px;letter-spacing:.18em;color:var(--ink-3);margin-top:4px}
+  .sblock.hokuz .si{color:#7aa9d4}
+  .sblock.chuz  .si{color:var(--gold-2)}
+  .sblock.nanz  .si{color:#c98870}
+
+  /* ============ MODERN LIST ============ */
+  .modern{padding:14px 8px 0}
+  .modern .item{display:grid;grid-template-columns:30px 130px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .modern .item:last-child{border-bottom:none}
+  .modern .dot{width:8px;height:8px;border:1px solid var(--gold);transform:rotate(45deg);margin:0 auto}
+  .modern .yr{font-family:var(--serif-en);font-size:15px;color:var(--gold-2);letter-spacing:.1em}
+  .modern .lbl{font-size:14px;color:var(--ink);letter-spacing:.06em}
+
+  /* ============ FOOTER ============ */
+  .footer{margin:80px 0 0;padding:36px 0 48px;border-top:1px solid var(--line);text-align:center}
+  .footer .crest-sm{display:flex;justify-content:center;margin-bottom:18px}
+  .footer .crest-sm svg{width:36px;height:36px;opacity:.75}
+  .footer .src{font-size:11px;letter-spacing:.18em;color:var(--ink-3);line-height:2}
+  .footer .src strong{color:var(--gold-2);font-weight:500}
+  .footer .note{font-size:10px;color:var(--ink-3);margin-top:14px;letter-spacing:.12em}
+
+  /* ============ SOURCE NOTE ============ */
+  .src-note{margin-top:18px;padding-top:12px;border-top:1px dotted var(--line);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.95}
+  .src-note b{display:inline-block;color:var(--gold-soft);font-weight:400;letter-spacing:.28em;font-family:var(--serif-en);text-transform:uppercase;margin-right:10px}
+
+  /* ============ UTILITIES ============ */
+  ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.04em;font-family:var(--serif-en);font-weight:400}
+  .ev-row{position:relative}
+
+  /* badge bar (compact summary above table) */
+  .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;padding:14px 16px;border:1px dashed var(--line);background:rgba(201,164,74,.03)}
+  .badge{padding:6px 11px;border:1px solid var(--line-2);font-size:11px;color:var(--ink-2);letter-spacing:.1em;display:inline-flex;align-items:center;gap:6px}
+  .badge .b-n{font-family:var(--serif-en);font-size:9px;color:var(--gold);letter-spacing:.15em}
+  .badge.hl{border-color:var(--gold);color:var(--gold-3);background:rgba(201,164,74,.08)}
+
+  /* small chip for residence */
+  .residence{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--gold-2);letter-spacing:.16em;padding:5px 10px;border:1px solid var(--gold-soft);background:rgba(201,164,74,.05)}
+  .residence svg{width:12px;height:12px}
+
+  @media(max-width:680px){
+    .dn-head{grid-template-columns:1fr;text-align:left;gap:14px}
+    .dn-stats{justify-content:flex-start}
+    .ktbl thead{display:none}
+    .ktbl tbody td{display:block;padding:6px 12px;border:none}
+    .ktbl tbody tr{padding:14px 4px;display:block}
+    .ktbl .num-cell{text-align:left;width:auto}
+    .ktbl .name-cell .name{font-size:20px}
+    .ktbl .yr-cell{font-size:12px}
+    .masthead h1{font-size:30px}
+  }
+</style>
+<style>
+a{color:var(--gold-2);text-decoration:none}a:hover{color:var(--gold-3)}
+.sitenav{position:sticky;top:0;z-index:30;display:flex;justify-content:center;gap:4px;background:rgba(12,10,7,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.sitenav a{padding:14px 22px;font-size:13px;letter-spacing:.2em;color:var(--ink-2);border-bottom:2px solid transparent}
+.sitenav a:hover{color:var(--gold-3)}.sitenav a.on{color:var(--gold-3);border-bottom-color:var(--gold)}
+.sitenav{gap:12px;padding:14px 16px;background:rgba(12,10,7,.95);border-bottom:1px solid var(--gold-soft);box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.sitenav a{padding:11px 30px;font-size:16px;font-weight:600;letter-spacing:.22em;color:var(--gold-2);border:1px solid var(--gold-soft);background:rgba(201,164,74,.05);transition:background .2s,color .2s,border-color .2s}
+.sitenav a:hover{color:var(--gold-3);border-color:var(--gold);background:rgba(201,164,74,.12)}
+.sitenav a.on{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+@media(max-width:680px){.sitenav{gap:6px;padding:10px 8px}.sitenav a{padding:9px 12px;font-size:13px;letter-spacing:.08em}}
+.band{position:relative;overflow:hidden;padding:46px 0 36px;text-align:center;border-bottom:1px solid var(--line)}
+.band .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;opacity:.34;filter:saturate(.6) sepia(.2);-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent);mask-image:linear-gradient(180deg,#000 30%,transparent);pointer-events:none}
+.band>*:not(.bg){position:relative}
+.band .mon{width:40px;height:40px;display:block;margin:0 auto 16px;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%)}
+.band .en{font-family:var(--serif-en);font-size:12px;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;margin-bottom:10px}
+.band h1{font-weight:600;font-size:clamp(28px,4.4vw,42px);color:var(--gold-3);letter-spacing:.18em;text-indent:.18em;line-height:1.3}
+.band .subtitle{margin-top:10px;font-size:13px;letter-spacing:.24em;color:var(--ink-2)}
+.filter{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:36px 0 0}
+.filter button{background:none;border:1px solid var(--line-2);color:var(--ink-2);font-family:var(--serif);padding:8px 16px;font-size:12px;letter-spacing:.18em;cursor:pointer}
+.filter button:hover{color:var(--gold-3)}.filter button.on{border-color:var(--gold);color:var(--gold-3);background:rgba(201,164,74,.08)}
+.doc{display:grid;grid-template-columns:120px minmax(0,1fr);gap:26px;padding:26px 0;border-bottom:1px solid var(--line)}
+.doc{scroll-margin-top:70px}.doc:target{background:rgba(201,164,74,.07);box-shadow:-14px 0 0 rgba(201,164,74,.07),14px 0 0 rgba(201,164,74,.07)}.doc:target h3{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:6px}.doc:first-of-type{padding-top:4px}.doc:last-child{border-bottom:none;padding-bottom:0}
+.doc .y{font-family:var(--serif-en);font-size:24px;line-height:1.2;color:var(--gold-2);letter-spacing:.04em}
+.doc .y small{display:block;margin-top:6px;font-family:var(--serif);font-size:11px;color:var(--ink-3);letter-spacing:.1em;line-height:1.6}
+.doc h3{font-size:21px;font-weight:600;color:var(--gold-3);letter-spacing:.1em;line-height:1.5}
+.doc h3 rt{font-family:var(--serif);font-size:.5em;color:var(--gold-2);letter-spacing:.08em}
+.doc .meta{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.tag{font-size:10.5px;padding:3px 10px;border:1px solid var(--line-2);color:var(--ink-2);letter-spacing:.14em}
+.tag.r-ryukyu{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}
+.tag.r-yamato{color:#d09a84;border-color:rgba(201,136,112,.5)}
+.tag.r-china{color:#d07a6a;border-color:rgba(160,64,48,.6);background:rgba(160,64,48,.08)}
+.tag.r-korea{color:#8db6dc;border-color:rgba(122,169,212,.5)}
+.tag.r-west{color:#7cc0a8;border-color:rgba(62,136,112,.6)}
+.doc p{font-size:14px;color:var(--ink-2);line-height:2.05;text-wrap:pretty}
+.doc p+p{margin-top:8px}
+.doc .kw{color:var(--gold-3);font-weight:500}
+.doc .dissent{margin-top:10px;padding:10px 14px;border:1px dashed rgba(62,136,112,.5);font-size:12.5px;color:var(--ink-2);line-height:1.9}
+.doc .dissent b{color:var(--teal);font-weight:500;letter-spacing:.1em;margin-right:8px}
+.doc .src-note{margin-top:12px}
+.pager{display:flex;justify-content:center;margin:64px 0 0}
+.pager a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 44px;border:1px solid var(--gold-soft);color:var(--gold-3);font-size:16px;letter-spacing:.2em}
+.pager a small{font-family:var(--serif-en);font-size:11px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase}
+.pager a:hover{background:rgba(201,164,74,.06);border-color:var(--gold)}
+@media(max-width:680px){.doc{grid-template-columns:1fr;gap:8px}.sitenav a{padding:12px 12px;font-size:12px;letter-spacing:.1em}}
+</style>
+</head>
+<body>
+<div class="page">
+<nav class="sitenav"><a href="琉球歴代王統年表.html">歴代王統年表</a><a href="琉球史料集成.html" class="on">史料集成</a><a href="琉球人物誌.html">人物誌</a></nav>
+<header class="band inner"><img class="bg" src="assets/shuri-photo-2.jpg" alt=""><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"><div class="en">Sources on the Ryukyu Kingdom</div><h1>琉球史料集成</h1><div class="subtitle">書物・碑文・外国史料を年代順に</div></header>
+<div class="inner">
+<div class="filter" id="filter"><button class="on" data-f="all">すべて</button><button data-f="ryukyu">琉球王国</button><button data-f="yamato">日本本土</button><button data-f="china">中国</button><button data-f="korea">朝鮮半島</button><button data-f="west">欧米</button></div>
+<div class="sanzan-note" style="margin-top:28px">琉球の歴史を伝える史料を、成立・記事の年代順に並べた。王国内で作られた史書・碑文・歌謡と、日本本土・中国・朝鮮半島・欧米に残る記録を収める。年は記事の年代を大きく示し、書物の成立年が異なる場合は下に添えた。</div>
+<section class="cent" data-screen-label="古代 — 13世紀"><div class="era"><div class="nub"></div><div class="name">古代 — 13世紀</div><div class="years">5点</div><div class="line"></div><div class="roman">7th – 13th C.</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="隋書_流求国伝" data-r="china"><div class="y">607–610<small>636年成立</small></div><div><h3><ruby>隋書 流求国伝<rt>ずいしょ りゅうきゅうこくでん</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">正史</span><span class="tag">唐・魏徴ら編</span></div><p>607年に隋の煬帝が朱寛を遣わして「流求」を訪ねさせ、翌年も再び派遣、610年には陳稜らが兵を率いて遠征し、住民数千人を連れ帰ったと記す。南の島々を記した中国史書の最初のまとまった記述である。</p><div class="dissent"><b>諸説</b>「流求」が沖縄を指すのか台湾を指すのかは江戸時代から議論があり、現在も決着していない。</div><div class="src-note"><b>Source</b>『隋書』巻81 東夷伝 流求国</div></div></div><div class="doc" id="続日本紀" data-r="yamato"><div class="y">714<small>797年成立</small></div><div><h3><ruby>続日本紀<rt>しょくにほんぎ</rt></ruby></h3><div class="meta"><span class="tag r-yamato">日本本土</span><span class="tag">正史</span><span class="tag">菅野真道ら編</span></div><p>和銅7年（714）、<span class="kw">奄美・信覚・球美</span>などの島の人々が来朝したと記す。信覚は石垣島、球美は久米島に比定される。南西諸島の具体的な島名が日本の正史に現れる早い例である。</p><div class="src-note"><b>Source</b>『続日本紀』和銅7年12月条</div></div></div><div class="doc" id="唐大和上東征伝" data-r="yamato"><div class="y">753<small>779年成立</small></div><div><h3><ruby>唐大和上東征伝<rt>とうだいわじょうとうせいでん</rt></ruby></h3><div class="meta"><span class="tag r-yamato">日本本土</span><span class="tag">伝記</span><span class="tag">淡海三船 撰</span></div><p>鑑真の渡日を記した伝記。753年、鑑真一行を乗せた遣唐使船が<span class="kw"><ruby>阿児奈波<rt>あこなは</rt></ruby>嶋</span>に着いたと記す。「おきなわ」に当たる地名の最古の記録とされる。</p><div class="src-note"><b>Source</b>『唐大和上東征伝』</div></div></div><div class="doc" id="諸蕃志" data-r="china"><div class="y">1225</div><div><h3><ruby>諸蕃志<rt>しょばんし</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">地誌</span><span class="tag">南宋・趙汝适 撰</span></div><p>泉州の市舶司（貿易管理官）を務めた趙汝适が、来航する商人から聞いた諸国の事情をまとめた書。「流求国」の項を立て、泉州の東方にある島として記す。</p><div class="dissent"><b>諸説</b>『隋書』と同じく、ここでの「流求」が沖縄か台湾かについては見解が分かれる。</div><div class="src-note"><b>Source</b>『諸蕃志』巻上 流求国</div></div></div><div class="doc" id="元史_瑠求伝" data-r="china"><div class="y">1291<small>1370年成立</small></div><div><h3><ruby>元史 瑠求伝<rt>げんし りゅうきゅうでん</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">正史</span><span class="tag">明・宋濂ら編</span></div><p>1291年、元の世祖が楊祥らを遣わして瑠求を招諭しようとしたが上陸できずに終わり、1297年にも福建から兵を出して住民百三十余人を連れ帰ったと記す。</p><div class="src-note"><b>Source</b>『元史』巻210 外夷伝 瑠求</div></div></div></article></section><section class="cent" data-screen-label="14世紀"><div class="era"><div class="nub"></div><div class="name">14世紀</div><div class="years">3点</div><div class="line"></div><div class="roman">14th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="明実録" data-r="china"><div class="y">1372 —</div><div><h3><ruby>明実録<rt>みんじつろく</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">実録</span><span class="tag">明朝 歴代編纂</span></div><p>明の歴代皇帝ごとの公式記録。1372年の楊載による招諭と中山王察度の進貢を最初に、琉球の朝貢・冊封・交易の記事が多数載る。三山時代の王名や在位の多くは、この史料によって知られる。</p><div class="src-note"><b>Source</b>『明実録』太祖実録ほか</div></div></div><div class="doc" id="高麗史" data-r="korea"><div class="y">1389<small>1451年成立</small></div><div><h3><ruby>高麗史<rt>こうらいし</rt></ruby></h3><div class="meta"><span class="tag r-korea">朝鮮半島</span><span class="tag">正史</span><span class="tag">朝鮮・鄭麟趾ら編</span></div><p>恭譲王元年（1389）、中山王察度が<span class="kw">玉之</span>を遣わし、倭寇に連れ去られていた高麗の人々を送り返し、硫黄・蘇木・胡椒などを献じたと記す。琉球と朝鮮半島の公式な交流の初見である。</p><div class="src-note"><b>Source</b>『高麗史』恭譲王世家 元年8月条</div></div></div><div class="doc" id="朝鮮王朝実録" data-r="korea"><div class="y">1392 —</div><div><h3><ruby>朝鮮王朝実録<rt>ちょうせんおうちょうじつろく</rt></ruby></h3><div class="meta"><span class="tag r-korea">朝鮮半島</span><span class="tag">実録</span><span class="tag">朝鮮王朝 歴代編纂</span></div><p>朝鮮王朝の歴代国王の記録。太祖元年（1392）以降、琉球使節の来朝、倭寇の被虜人の送還、漂流民の保護と送還の記事が続き、15世紀の琉球の外交を朝鮮の側から伝える。</p><div class="src-note"><b>Source</b>『朝鮮王朝実録』太祖実録ほか</div></div></div></article></section><section class="cent" data-screen-label="15世紀"><div class="era"><div class="nub"></div><div class="name">15世紀</div><div class="years">5点</div><div class="line"></div><div class="roman">15th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="歴代宝案" data-r="ryukyu"><div class="y">1424 — 1867</div><div><h3><ruby>歴代宝案<rt>れきだいほうあん</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">外交文書集</span><span class="tag">琉球王府（久米村）</span></div><p>久米村で編集・保管された漢文の外交文書集。明・清・朝鮮のほか、シャム・マラッカ・パレンバン・ジャワ・スマトラなどとの往復文書を収め、現存するのは1424年から1867年までの分である。<span class="kw">大交易時代の実態を伝える根本史料</span>。</p><div class="dissent"><b>諸説</b>原本は沖縄戦で失われ、戦前に作られた写本などをもとに沖縄県が校訂本を刊行している。</div><div class="src-note"><b>Source</b>沖縄県教育委員会『歴代宝案』校訂本</div></div></div><div class="doc" id="安国山樹華木記碑" data-r="ryukyu"><div class="y">1427</div><div><h3><ruby>安国山樹華木記碑<rt>あんこくざんじゅかぼくのきひ</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">碑文</span><span class="tag">明・柴山 撰</span></div><p>尚巴志王の代、国相・懐機が龍潭を掘り、その土で安国山を築いて花木を植えた経緯を記す。<span class="kw">現存する琉球最古の石碑</span>で、第一尚氏初期の首里の整備を伝える一級史料である。</p><div class="src-note"><b>Source</b>沖縄県立博物館・美術館 所蔵資料／『球陽』</div></div></div><div class="doc" id="万国津梁の鐘_銘" data-r="ryukyu"><div class="y">1458</div><div><h3><ruby>万国津梁の鐘 銘<rt>ばんこくしんりょうのかね</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">鐘銘</span><span class="tag">相国寺住持・渓隠安潜 撰</span></div><p>尚泰久王の命で鋳造され、首里城正殿に掛けられた鐘の銘文。琉球を「南海の勝地」とし、船によって<span class="kw">万国の津梁（架け橋）</span>となると記す。銘文を撰したのは日本から渡った禅僧・渓隠である。</p><div class="src-note"><b>Source</b>沖縄県立博物館・美術館 所蔵（重要文化財）</div></div></div><div class="doc" id="海東諸国紀" data-r="korea"><div class="y">1471</div><div><h3><ruby>海東諸国紀<rt>かいとうしょこくき</rt></ruby></h3><div class="meta"><span class="tag r-korea">朝鮮半島</span><span class="tag">地誌</span><span class="tag">朝鮮・申叔舟 撰</span></div><p>日本と琉球の地理・歴史・風俗・使節の接待規定をまとめた書。「琉球国紀」と「琉球国之図」を含み、図は博多の商人・道安が1453年に朝鮮へもたらした地図をもとにしたとされる。</p><div class="src-note"><b>Source</b>『海東諸国紀』</div></div></div><div class="doc" id="成宗実録_済州島民漂流記" data-r="korea"><div class="y">1479</div><div><h3><ruby>成宗実録 済州島民漂流記<rt>せいそうじつろく</rt></ruby></h3><div class="meta"><span class="tag r-korea">朝鮮半島</span><span class="tag">見聞記</span><span class="tag">朝鮮王朝</span></div><p>1477年、済州島の<span class="kw">金非衣</span>らが遭難して与那国島に流れ着き、西表・宮古などを経て沖縄島から送還された。帰国後の聞き取りが実録に収められ、15世紀の先島と首里の暮らし・食・住居を具体的に伝える。</p><div class="src-note"><b>Source</b>『朝鮮王朝実録』成宗10年6月条</div></div></div></article></section><section class="cent" data-screen-label="16世紀"><div class="era"><div class="nub"></div><div class="name">16世紀</div><div class="years">5点</div><div class="line"></div><div class="roman">16th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="玉陵碑" data-r="ryukyu"><div class="y">1501</div><div><h3><ruby>玉陵碑<rt>たまうどぅんのひ</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">碑文</span><span class="tag">尚真王</span></div><p>王家の陵墓・玉陵の前に建てられた碑。玉陵に葬られるべき者を名指しで定め、この書き付けに背く者があれば「天に仰ぎ地に伏して祟るべし」と結ぶ。ひらがな主体で書かれた碑文である。</p><div class="src-note"><b>Source</b>国指定史跡 玉陵／那覇市教育委員会</div></div></div><div class="doc" id="真珠湊碑文" data-r="ryukyu"><div class="y">1522</div><div><h3><ruby>真珠湊碑文<rt>まだんみなとひもん</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">碑文</span><span class="tag">尚真王代</span></div><p>首里から那覇港へ通じる真玉道と真玉橋の建設を記した碑。那覇港を守る軍事上の道として整備されたことを伝える。</p><div class="src-note"><b>Source</b>那覇市教育委員会</div></div></div><div class="doc" id="おもろさうし" data-r="ryukyu"><div class="y">1531 — 1623</div><div><h3><ruby>おもろさうし<rt>おもろそうし</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">歌謡集</span><span class="tag">首里王府 編</span></div><p>各地で謡われた神歌「おもろ」を首里王府が集めた歌謡集。第1巻が1531年、第2巻が1613年、第3巻以降が1623年に編まれ、全22巻・1554首を収める。ひらがなで書かれ、<span class="kw">古琉球の言葉と信仰を伝える最大の資料</span>である。</p><div class="src-note"><b>Source</b>外間守善 校注『おもろさうし』岩波文庫</div></div></div><div class="doc" id="幻雲文集" data-r="yamato"><div class="y">16C前半</div><div><h3><ruby>幻雲文集<rt>げんうんぶんしゅう</rt></ruby></h3><div class="meta"><span class="tag r-yamato">日本本土</span><span class="tag">詩文集</span><span class="tag">月舟寿桂（1470–1533）</span></div><p>京都五山の禅僧・月舟寿桂の詩文集。所収の「鶴翁字銘并序」は琉球出身の僧・鶴翁に与えた文で、<span class="kw">源為朝が琉球に渡り、その子孫が王となった</span>という伝承を記す。為朝渡琉伝説を記した現存最古の文献とされ、のちの『中山世鑑』の舜天＝為朝の子という系譜につながる。</p><div class="dissent"><b>諸説</b>為朝渡琉は史実とは認められていない。琉球と日本の結びつきを語る伝承として、五山僧の周辺で広まったものとみられる。</div><div class="src-note"><b>Source</b>『幻雲文集』「鶴翁字銘并序」</div></div></div><div class="doc" id="使琉球録" data-r="china"><div class="y">1534</div><div><h3><ruby>使琉球録<rt>しりゅうきゅうろく</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">冊封使録</span><span class="tag">明・陳侃 撰</span></div><p>尚清王の冊封のため渡琉した正使・陳侃の記録。航路、首里での儀礼、琉球の風俗を記す。<span class="kw">現存最古の冊封使録</span>で、以後の冊封使が記録を残す先例となった。</p><div class="src-note"><b>Source</b>陳侃『使琉球録』</div></div></div></article></section><section class="cent" data-screen-label="17世紀"><div class="era"><div class="nub"></div><div class="name">17世紀</div><div class="years">4点</div><div class="line"></div><div class="roman">17th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="琉球神道記" data-r="yamato"><div class="y">1605<small>1648年刊</small></div><div><h3><ruby>琉球神道記<rt>りゅうきゅうしんとうき</rt></ruby></h3><div class="meta"><span class="tag r-yamato">日本本土</span><span class="tag">宗教書</span><span class="tag">袋中良定</span></div><p>1603年から1606年まで琉球に滞在した浄土宗の僧・袋中が、琉球の神々・寺社・信仰を記した書。熊野信仰の広がりや、当時の琉球の神社・寺院の様子を伝える。</p><div class="src-note"><b>Source</b>袋中『琉球神道記』／檀王法林寺</div></div></div><div class="doc" id="喜安日記" data-r="ryukyu"><div class="y">1609 —</div><div><h3><ruby>喜安日記<rt>きあんにっき</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">日記</span><span class="tag">喜安入道蕃元</span></div><p>堺出身の茶人で尚寧王に仕えた喜安の日記。<span class="kw">1609年の薩摩侵攻</span>、尚寧王が鹿児島・駿府・江戸へ連れて行かれた道中を、王のそばにいた者の目で記す。</p><div class="src-note"><b>Source</b>『喜安日記』</div></div></div><div class="doc" id="中山世鑑" data-r="ryukyu"><div class="y">1650</div><div><h3><ruby>中山世鑑<rt>ちゅうざんせいかん</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">正史</span><span class="tag">羽地朝秀（向象賢）</span></div><p>琉球最初の正史。和文で書かれ、天孫氏・舜天・英祖・察度・尚氏と続く王統を体系化した。舜天を源為朝の子とする系譜はここで公式のものとなった。</p><div class="dissent"><b>諸説</b>神話・伝説を多く含み、とくに舜天以前の記述は史実として扱われない。</div><div class="src-note"><b>Source</b>『中山世鑑』</div></div></div><div class="doc" id="中山世譜" data-r="ryukyu"><div class="y">1701 / 1725</div><div><h3><ruby>中山世譜<rt>ちゅうざんせいふ</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">正史</span><span class="tag">蔡鐸 編／蔡温 改訂</span></div><p>『中山世鑑』を蔡鐸が漢文に改めて増補し（1701年）、その子・蔡温が中国の史料と照らして大幅に改訂した（1725年）。以後の王府の公式な歴史の基準となった。</p><div class="src-note"><b>Source</b>『中山世譜』</div></div></div></article></section><section class="cent" data-screen-label="18世紀"><div class="era"><div class="nub"></div><div class="name">18世紀</div><div class="years">5点</div><div class="line"></div><div class="roman">18th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="琉球国由来記" data-r="ryukyu"><div class="y">1713</div><div><h3><ruby>琉球国由来記<rt>りゅうきゅうこくゆらいき</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">地誌</span><span class="tag">首里王府 編</span></div><p>王府の儀礼・年中行事、各地の御嶽・拝所、祭祀の由来をまとめた全21巻の書。1731年にはこれを漢文に改めた『琉球国旧記』が編まれた。</p><div class="src-note"><b>Source</b>『琉球国由来記』</div></div></div><div class="doc" id="南島志" data-r="yamato"><div class="y">1719</div><div><h3><ruby>南島志<rt>なんとうし</rt></ruby></h3><div class="meta"><span class="tag r-yamato">日本本土</span><span class="tag">地誌</span><span class="tag">新井白石</span></div><p>江戸幕府の政治顧問・新井白石が、琉球の地理・王の系譜・官制・風俗・産物を体系的にまとめた書。江戸上りの琉球使節との対話や中国の史料をもとにしている。</p><div class="src-note"><b>Source</b>新井白石『南島志』</div></div></div><div class="doc" id="中山伝信録" data-r="china"><div class="y">1721</div><div><h3><ruby>中山伝信録<rt>ちゅうざんでんしんろく</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">冊封使録</span><span class="tag">清・徐葆光 撰</span></div><p>1719年、尚敬王の冊封副使として渡琉した徐葆光の記録。全6巻、図を多く用いて首里城・儀礼・風俗・言語を記す。日本でも和刻本が出され、<span class="kw">江戸時代の琉球像の基本資料</span>となった。</p><div class="src-note"><b>Source</b>徐葆光『中山伝信録』</div></div></div><div class="doc" id="球陽" data-r="ryukyu"><div class="y">1745</div><div><h3><ruby>球陽<rt>きゅうよう</rt></ruby></h3><div class="meta"><span class="tag r-ryukyu">琉球王国</span><span class="tag">編年史</span><span class="tag">鄭秉哲ら 編</span></div><p>王府が編んだ漢文の編年体の歴史書。年ごとに政治・外交・災害・人物の事績を記し、のちも書き継がれた。付巻の『遺老説伝』には各地の伝承が収められている。</p><div class="src-note"><b>Source</b>『球陽』</div></div></div><div class="doc" id="琉球国志略" data-r="china"><div class="y">1757</div><div><h3><ruby>琉球国志略<rt>りゅうきゅうこくしりゃく</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">冊封使録</span><span class="tag">清・周煌 撰</span></div><p>1756年、尚穆王の冊封副使として渡琉した周煌の記録。地理・王統・制度・風俗を分類して記し、『中山伝信録』と並ぶ清代の代表的な琉球誌である。</p><div class="src-note"><b>Source</b>周煌『琉球国志略』</div></div></div></article></section><section class="cent" data-screen-label="19世紀"><div class="era"><div class="nub"></div><div class="name">19世紀</div><div class="years">3点</div><div class="line"></div><div class="roman">19th Century</div></div><article class="dynasty"><span class="br-bl"></span><span class="br-br"></span><div class="doc" id="使琉球記" data-r="china"><div class="y">1802</div><div><h3><ruby>使琉球記<rt>しりゅうきゅうき</rt></ruby></h3><div class="meta"><span class="tag r-china">中国</span><span class="tag">冊封使録</span><span class="tag">清・李鼎元 撰</span></div><p>1800年、尚温王の冊封副使として渡琉した李鼎元の日記体の記録。滞在中の行事や琉球の人々との交流を日を追って記す。</p><div class="src-note"><b>Source</b>李鼎元『使琉球記』</div></div></div><div class="doc" id="大琉球島航海記" data-r="west"><div class="y">1818</div><div><h3><ruby>大琉球島航海記<rt>だいりゅうきゅうとうこうかいき</rt></ruby></h3><div class="meta"><span class="tag r-west">欧米</span><span class="tag">航海記</span><span class="tag">バジル・ホール（英）</span></div><p>1816年に那覇に寄港した英国艦隊の艦長ホールの記録。原題は Account of a Voyage of Discovery to the West Coast of Corea and the Great Loo-Choo Island。欧州に琉球を紹介し、広く読まれた。</p><div class="src-note"><b>Source</b>Basil Hall, London 1818</div></div></div><div class="doc" id="ペリー艦隊日本遠征記" data-r="west"><div class="y">1856</div><div><h3><ruby>ペリー艦隊日本遠征記<rt>ぺりーかんたいにほんえんせいき</rt></ruby></h3><div class="meta"><span class="tag r-west">欧米</span><span class="tag">航海記</span><span class="tag">合衆国政府 刊</span></div><p>1853年から54年にかけて那覇に寄港したペリー艦隊の公式記録。首里城訪問の様子や、那覇の街・人々の姿を挿絵とともに伝える。</p><div class="src-note"><b>Source</b>Narrative of the Expedition of an American Squadron to the China Seas and Japan, 1856</div></div></div></article></section>
+<div class="pager" style="gap:14px;flex-wrap:wrap"><a href="琉球歴代王統年表.html"><small>Back</small>← 歴代王統年表へ</a><a href="琉球人物誌.html"><small>Next</small>人物誌へ →</a></div>
+<footer class="footer"><div class="crest-sm"><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"></div><div class="note">※ 各項の Source は史料名・所蔵・刊本を示す。「諸説」は解釈が分かれている点。</div></footer>
+</div>
+</div>
+<script>
+(function(){var bs=document.querySelectorAll('#filter button');bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.toggle('on',x===b)});var f=b.dataset.f;document.querySelectorAll('.cent').forEach(function(s){var n=0;s.querySelectorAll('.doc').forEach(function(d){var show=f==='all'||d.dataset.r===f;d.style.display=show?'':'none';if(show)n++});s.style.display=n?'':'none';s.querySelector('.years').textContent=n+'点'})})})})();
+</script>
+</body>
+</html>

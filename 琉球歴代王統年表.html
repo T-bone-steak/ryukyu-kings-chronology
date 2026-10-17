@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>琉球王国 歴代王統年表</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@300;400;500;600;700;900&family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0c0a07;
+    --bg-2:#15110a;
+    --bg-3:#1d1810;
+    --line:#3a2f18;
+    --line-2:#52421f;
+    --gold:#c9a44a;
+    --gold-2:#e0bf6c;
+    --gold-3:#f0d894;
+    --gold-soft:#8a7332;
+    --ink:#ece1c4;
+    --ink-2:#b8a980;
+    --ink-3:#7a6f54;
+    --red:#a04030;
+    --teal:#3e8870;
+    --serif:'Shippori Mincho','Noto Serif JP',serif;
+    --serif-en:'Cormorant Garamond',serif;
+  }
+  html,body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-feature-settings:"palt";-webkit-font-smoothing:antialiased}
+  body{font-size:15px;line-height:1.85}
+
+  /* ============ LAYOUT ============ */
+  .page{max-width:1080px;margin:0 auto;background:linear-gradient(180deg,#100c08 0%,#0c0a07 220px);}
+  .inner{padding:0 clamp(20px,5vw,64px)}
+
+  /* ============ HEADER ============ */
+  .masthead{padding:72px 0 64px;text-align:center;position:relative;overflow:hidden}
+  .shuri-photo{position:absolute;inset:0;z-index:0;pointer-events:none;
+    -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+    mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 96%);
+  }
+  .shuri-photo img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;filter:saturate(.7) sepia(.1) brightness(1.15);
+    transition:opacity 1.6s ease;
+  }
+  .shuri-photo img.active{opacity:.68}
+  .shuri-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(ellipse 70% 80% at 50% 45%, rgba(12,10,7,.55), rgba(12,10,7,.15) 60%, transparent);
+  }
+  .masthead > *:not(.shuri-photo):not(.shuri-scrim){position:relative;z-index:2}
+  .crest{display:flex;justify-content:center;margin-bottom:28px}
+
+  /* ---- header animation ---- */
+  @media (prefers-reduced-motion: no-preference){
+    .shuri-photo img.active{animation:photo-in 2.4s ease both}
+    @keyframes photo-in{from{opacity:0}to{opacity:.68}}
+    .crest img.mon{animation:mon-spin 90s linear infinite, rise .9s ease both}
+    @keyframes mon-spin{to{rotate:-360deg}}
+    .masthead .en{animation:rise .8s ease .15s both}
+    .masthead h1{animation:rise .9s ease .3s both}
+    .masthead .subtitle{animation:rise .9s ease .5s both}
+    .masthead .rule{animation:rule-grow 1.2s ease .7s both}
+    .masthead .meta{animation:rise .9s ease .9s both}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes rule-grow{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+  }
+  .crest svg{width:64px;height:64px;display:block}
+  .crest img.mon{width:64px;height:64px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.95}
+  .footer .crest-sm img.mon{width:36px;height:36px;display:block;filter:invert(76%) sepia(40%) saturate(440%) hue-rotate(5deg) brightness(95%) contrast(88%);opacity:.75}
+  .masthead .en{font-family:var(--serif-en);font-size:13px;letter-spacing:.42em;color:var(--gold-3);text-transform:uppercase;margin-bottom:18px;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead h1{font-family:var(--serif);font-weight:600;font-size:clamp(42px,6.2vw,64px);color:var(--gold-3);letter-spacing:.18em;line-height:1.3;text-indent:.18em}
+  .masthead .subtitle{margin-top:14px;font-size:13px;letter-spacing:.3em;color:#d6c8a0;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+  .masthead .rule{width:280px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:32px auto 0}
+  .masthead .meta{margin-top:18px;font-size:11px;letter-spacing:.18em;color:#a9997a;text-shadow:0 1px 10px rgba(12,10,7,.9)}
+
+  /* ============ ORNAMENTAL DIVIDERS ============ */
+  .ornament{display:flex;align-items:center;justify-content:center;gap:14px;margin:64px 0 28px}
+  .ornament .line{flex:1;max-width:240px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-soft),var(--gold),var(--gold-soft),transparent)}
+  .ornament .mark{display:flex;align-items:center;gap:10px;color:var(--gold-2);font-size:11px;letter-spacing:.4em;text-transform:uppercase;font-family:var(--serif-en)}
+  .ornament .diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+
+  /* ============ ERA BANNER ============ */
+  .era{margin:56px 0 22px;display:flex;align-items:center;gap:18px}
+  .era .nub{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex-shrink:0}
+  .era .name{font-size:18px;font-weight:600;color:var(--gold-2);letter-spacing:.22em;white-space:nowrap}
+  .era .years{font-family:var(--serif-en);font-size:13px;color:var(--ink-2);letter-spacing:.18em;white-space:nowrap}
+  .era .line{flex:1;height:1px;background:linear-gradient(90deg,var(--gold-soft),transparent)}
+  .era .roman{font-family:var(--serif-en);font-size:11px;letter-spacing:.5em;color:var(--gold-soft);text-transform:uppercase;white-space:nowrap}
+
+  /* ============ DYNASTY CARD ============ */
+  .dynasty{margin-bottom:8px;border:1px solid var(--line);background:var(--bg-2);padding:36px clamp(20px,3vw,42px) 32px;position:relative}
+  .dynasty::before,.dynasty::after{content:"";position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .dynasty::after{top:-1px;right:-1px;border-left:none;border-bottom:none}
+  .dynasty .br-bl,.dynasty .br-br{position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none}
+  .dynasty .br-bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+  .dynasty .br-br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  .dn-head{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;margin-bottom:24px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  .dn-icon{width:56px;height:56px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .dn-icon svg{width:30px;height:30px}
+  .dn-titles .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+  .dn-titles h2{font-size:26px;font-weight:600;color:var(--gold-3);letter-spacing:.14em}
+  .dn-titles .sub{font-size:12px;color:var(--ink-3);letter-spacing:.12em;margin-top:4px;font-family:var(--serif-en)}
+  .dn-stats{display:flex;gap:18px;text-align:right}
+  .dn-stats .item{padding-left:18px;border-left:1px solid var(--line)}
+  .dn-stats .item:first-child{border-left:none;padding-left:0}
+  .dn-stats .k{font-size:10px;letter-spacing:.2em;color:var(--ink-3);text-transform:uppercase;font-family:var(--serif-en);margin-bottom:4px}
+  .dn-stats .v{font-size:16px;color:var(--gold-2);font-weight:500}
+
+  .dn-desc{font-size:14px;color:var(--ink-2);line-height:2;padding:0 8px 22px;margin-bottom:22px;border-bottom:1px dashed var(--line);position:relative}
+  .dn-desc::before{content:"";position:absolute;left:0;top:0;width:2px;height:100%;background:var(--gold-soft);opacity:.45}
+
+  /* ============ KING TABLE ============ */
+  .ktbl{width:100%;border-collapse:collapse}
+  .ktbl thead th{
+    padding:10px 14px;
+    font-size:10px;font-weight:400;letter-spacing:.32em;
+    color:var(--gold);text-align:left;text-transform:uppercase;
+    font-family:var(--serif-en);
+    border-bottom:1px solid var(--gold-soft);
+    background:rgba(201,164,74,.05);
+  }
+  .ktbl thead th.center{text-align:center}
+  .ktbl tbody tr{border-bottom:1px solid var(--line)}
+  .ktbl tbody tr:last-child{border-bottom:none}
+  .ktbl tbody tr:hover{background:rgba(201,164,74,.04)}
+  .ktbl tbody td{padding:18px 14px;vertical-align:middle}
+  .ktbl .num-cell{text-align:center;width:64px}
+  .ktbl .num-cell .seq{display:inline-block;font-family:var(--serif-en);font-size:11px;letter-spacing:.15em;color:var(--gold);padding:4px 9px;border:1px solid var(--gold-soft);min-width:38px}
+  .ktbl .num-cell .seq.highlight{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+  .ktbl .name-cell{min-width:160px}
+  .ktbl .name-cell .name{font-size:22px;font-weight:500;color:var(--ink);letter-spacing:.08em;line-height:1.2}
+  .ktbl .name-cell .read{font-size:11px;color:var(--gold-2);letter-spacing:.2em;margin-top:6px;font-family:var(--serif-en)}
+  .ktbl .yr-cell{width:140px;font-family:var(--serif-en);font-size:17px;color:var(--ink-2);letter-spacing:.06em;white-space:nowrap}
+  .ktbl .note-cell{font-size:13px;color:var(--ink-2);line-height:1.85}
+  .ktbl tbody tr.event td{background:rgba(160,64,48,.06)}
+  .ktbl .ev-tag{display:inline-block;margin-top:8px;padding:3px 10px;font-size:10px;letter-spacing:.2em;color:var(--red);border:1px solid rgba(160,64,48,.5);background:rgba(160,64,48,.08);font-family:var(--serif-en);text-transform:uppercase}
+  .ktbl .ev-tag.teal{color:var(--teal);border-color:rgba(62,136,112,.5);background:rgba(62,136,112,.08)}
+  .ktbl .ev-tag.gold{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.08)}
+
+  /* compact mode (sanzan) */
+  .ktbl.compact tbody td{padding:12px 10px}
+  .ktbl.compact .name-cell{min-width:0}
+  .ktbl.compact .name-cell .name{font-size:17px}
+  .ktbl.compact .name-cell .read{font-size:10px;margin-top:4px}
+  .ktbl.compact .yr-cell{width:auto;font-size:11px;white-space:normal}
+  .ktbl.compact .num-cell .seq{font-size:10px;padding:3px 7px;min-width:32px}
+
+  /* ============ MYTH SECTION ============ */
+  .myth{margin:0 0 8px;border:1px solid var(--line);background:var(--bg-2);padding:42px clamp(24px,4vw,52px)}
+  .myth .head{display:flex;align-items:center;gap:18px;margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+  .myth .head .icon{width:48px;height:48px;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;color:var(--gold-2)}
+  .myth .head .icon svg{width:26px;height:26px}
+  .myth .head h2{font-size:22px;font-weight:600;color:var(--gold-3);letter-spacing:.16em}
+  .myth .head .en{font-family:var(--serif-en);font-size:10px;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-top:4px}
+  .myth p{font-size:14.5px;color:var(--ink);line-height:2.15;margin-bottom:18px;text-indent:1em}
+  .myth p:last-child{margin-bottom:0}
+  .myth .kw{color:var(--gold-3);font-weight:500;border-bottom:1px dotted var(--gold-soft);padding-bottom:1px}
+  .myth ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.05em}
+
+  /* ============ TRANSITION BANNER ============ */
+  .transition{margin:32px 0;border:1px solid var(--line);background:var(--bg-2);position:relative}
+  .transition .lbl{display:flex;align-items:center;gap:14px;padding:16px 24px;background:rgba(160,64,48,.08);border-bottom:1px solid var(--line)}
+  .transition .lbl .ico{width:30px;height:30px;color:var(--gold-2)}
+  .transition .lbl .ico svg{width:100%;height:100%}
+  .transition .lbl .num{font-family:var(--serif-en);font-size:11px;letter-spacing:.35em;color:var(--red);text-transform:uppercase}
+  .transition .lbl .ttl{font-size:15px;color:var(--ink);letter-spacing:.12em;font-weight:500;flex:1}
+  .transition .lbl .yr{font-family:var(--serif-en);font-size:13px;color:var(--gold-2);letter-spacing:.12em}
+  .transition .body{padding:24px;font-size:14px;color:var(--ink-2);line-height:2.05}
+  .transition .body .red{color:var(--red);font-weight:500}
+  .transition .body .teal{color:var(--teal);font-weight:500}
+  .transition .body .gold{color:var(--gold-3);font-weight:500}
+  .transition .flow{display:flex;align-items:center;gap:14px;padding:16px 24px 4px;flex-wrap:wrap}
+  .transition .flow .pill{padding:6px 14px;border:1px solid var(--line-2);color:var(--ink-2);font-size:12px;letter-spacing:.14em}
+  .transition .flow .pill.from{color:var(--ink-3)}
+  .transition .flow .pill.to{color:var(--gold-2);border-color:var(--gold-soft);background:rgba(201,164,74,.06)}
+  .transition .flow .arrow{color:var(--gold);font-family:var(--serif-en);font-size:14px;letter-spacing:.1em}
+
+  /* ============ SANZAN (Three Mountains) ============ */
+  .sanzan-note{font-size:13.5px;color:var(--ink-2);background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--gold);padding:18px 22px;margin-bottom:24px;line-height:1.95}
+  .sanzan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:8px}
+  @media(max-width:780px){.sanzan-grid{grid-template-columns:1fr}}
+  .sblock{border:1px solid var(--line);background:var(--bg-2)}
+  .sblock .sh{padding:18px 18px 14px;border-bottom:1px solid var(--line);display:flex;align-items:flex-start;gap:12px}
+  .sblock .sh .si{width:28px;height:28px;flex-shrink:0;color:var(--gold-2)}
+  .sblock .sh .si svg{width:100%;height:100%}
+  .sblock .sh .nm{font-size:16px;color:var(--gold-3);letter-spacing:.16em;font-weight:600}
+  .sblock .sh .lc{font-size:10px;letter-spacing:.18em;color:var(--ink-3);margin-top:4px}
+  .sblock.hokuz .si{color:#7aa9d4}
+  .sblock.chuz  .si{color:var(--gold-2)}
+  .sblock.nanz  .si{color:#c98870}
+
+  /* ============ MODERN LIST ============ */
+  .modern{padding:14px 8px 0}
+  .modern .item{display:grid;grid-template-columns:30px 130px 1fr;gap:18px;align-items:center;padding:18px 0;border-bottom:1px dashed var(--line)}
+  .modern .item:last-child{border-bottom:none}
+  .modern .dot{width:8px;height:8px;border:1px solid var(--gold);transform:rotate(45deg);margin:0 auto}
+  .modern .yr{font-family:var(--serif-en);font-size:15px;color:var(--gold-2);letter-spacing:.1em}
+  .modern .lbl{font-size:14px;color:var(--ink);letter-spacing:.06em}
+
+  /* ============ FOOTER ============ */
+  .footer{margin:80px 0 0;padding:36px 0 48px;border-top:1px solid var(--line);text-align:center}
+  .footer .crest-sm{display:flex;justify-content:center;margin-bottom:18px}
+  .footer .crest-sm svg{width:36px;height:36px;opacity:.75}
+  .footer .src{font-size:11px;letter-spacing:.18em;color:var(--ink-3);line-height:2}
+  .footer .src strong{color:var(--gold-2);font-weight:500}
+  .footer .note{font-size:10px;color:var(--ink-3);margin-top:14px;letter-spacing:.12em}
+
+  /* ============ SOURCE NOTE ============ */
+  .src-note{margin-top:18px;padding-top:12px;border-top:1px dotted var(--line);font-size:11px;letter-spacing:.06em;color:var(--ink-3);line-height:1.95}
+  .src-note b{display:inline-block;color:var(--gold-soft);font-weight:400;letter-spacing:.28em;font-family:var(--serif-en);text-transform:uppercase;margin-right:10px}
+
+  /* ============ UTILITIES ============ */
+  ruby rt{color:var(--gold-2);font-size:.55em;letter-spacing:.04em;font-family:var(--serif-en);font-weight:400}
+  .ev-row{position:relative}
+
+  /* badge bar (compact summary above table) */
+  .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;padding:14px 16px;border:1px dashed var(--line);background:rgba(201,164,74,.03)}
+  .badge{padding:6px 11px;border:1px solid var(--line-2);font-size:11px;color:var(--ink-2);letter-spacing:.1em;display:inline-flex;align-items:center;gap:6px}
+  .badge .b-n{font-family:var(--serif-en);font-size:9px;color:var(--gold);letter-spacing:.15em}
+  .badge.hl{border-color:var(--gold);color:var(--gold-3);background:rgba(201,164,74,.08)}
+
+  /* small chip for residence */
+  .residence{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--gold-2);letter-spacing:.16em;padding:5px 10px;border:1px solid var(--gold-soft);background:rgba(201,164,74,.05)}
+  .residence svg{width:12px;height:12px}
+
+  @media(max-width:680px){
+    .dn-head{grid-template-columns:1fr;text-align:left;gap:14px}
+    .dn-stats{justify-content:flex-start}
+    .ktbl thead{display:none}
+    .ktbl tbody td{display:block;padding:6px 12px;border:none}
+    .ktbl tbody tr{padding:14px 4px;display:block}
+    .ktbl .num-cell{text-align:left;width:auto}
+    .ktbl .name-cell .name{font-size:20px}
+    .ktbl .yr-cell{font-size:12px}
+    .masthead h1{font-size:30px}
+  }
+a{color:var(--gold-2);text-decoration:none}a:hover{color:var(--gold-3)}
+.sitenav{position:sticky;top:0;z-index:30;display:flex;justify-content:center;gap:4px;background:rgba(12,10,7,.92);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.sitenav a{padding:14px 22px;font-size:13px;letter-spacing:.2em;color:var(--ink-2);border-bottom:2px solid transparent}
+.sitenav a:hover{color:var(--gold-3)}.sitenav a.on{color:var(--gold-3);border-bottom-color:var(--gold)}
+.sitenav{gap:12px;padding:14px 16px;background:rgba(12,10,7,.95);border-bottom:1px solid var(--gold-soft);box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.sitenav a{padding:11px 30px;font-size:16px;font-weight:600;letter-spacing:.22em;color:var(--gold-2);border:1px solid var(--gold-soft);background:rgba(201,164,74,.05);transition:background .2s,color .2s,border-color .2s}
+.sitenav a:hover{color:var(--gold-3);border-color:var(--gold);background:rgba(201,164,74,.12)}
+.sitenav a.on{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+@media(max-width:680px){.sitenav{gap:6px;padding:10px 8px}.sitenav a{padding:9px 12px;font-size:13px;letter-spacing:.08em}}
+.pager{display:flex;justify-content:center;margin:64px 0 0}
+.pager a{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px 44px;border:1px solid var(--gold-soft);color:var(--gold-3);font-size:16px;letter-spacing:.2em}
+.pager a small{font-family:var(--serif-en);font-size:11px;letter-spacing:.36em;color:var(--gold);text-transform:uppercase}
+.pager a:hover{background:rgba(201,164,74,.06);border-color:var(--gold)}
+@media(max-width:680px){.sitenav a{padding:12px;font-size:12px;letter-spacing:.1em}}
+a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2s}a.srclink:hover{color:var(--gold-3);border-bottom-style:solid}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#15110a"/><circle cx="100" cy="100" r="46" fill="none" stroke="#c9a44a" stroke-width="2"/><circle cx="100" cy="100" r="40" fill="none" stroke="#8a7332" stroke-width="1"/><text x="100" y="116" font-family="serif" font-size="44" fill="#f0d894" text-anchor="middle">琉</text></svg></template>
+<div class="page">
+
+<!-- ============ SVG ICON LIBRARY (symbols) ============ -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <!-- Crown -->
+  <symbol id="i-crown" viewBox="0 0 40 40">
+    <path d="M6 28 L8 14 L14 20 L20 10 L26 20 L32 14 L34 28 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="miter"/>
+    <line x1="6" y1="32" x2="34" y2="32" stroke="currentColor" stroke-width="1.4"/>
+    <circle cx="20" cy="9" r="1.6" fill="currentColor"/>
+    <circle cx="8" cy="14" r="1.2" fill="currentColor"/>
+    <circle cx="32" cy="14" r="1.2" fill="currentColor"/>
+  </symbol>
+  <!-- Castle (residence) -->
+  <symbol id="i-castle" viewBox="0 0 40 40">
+    <path d="M6 32 L6 18 L10 18 L10 14 L14 14 L14 18 L18 18 L18 10 L22 10 L22 18 L26 18 L26 14 L30 14 L30 18 L34 18 L34 32 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="miter"/>
+    <rect x="18" y="22" width="4" height="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  </symbol>
+  <!-- Sun rays (myth / Tedako) -->
+  <symbol id="i-sun" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="6" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <g stroke="currentColor" stroke-width="1.4" stroke-linecap="square">
+      <line x1="20" y1="4" x2="20" y2="9"/>
+      <line x1="20" y1="31" x2="20" y2="36"/>
+      <line x1="4" y1="20" x2="9" y2="20"/>
+      <line x1="31" y1="20" x2="36" y2="20"/>
+      <line x1="8" y1="8" x2="11.5" y2="11.5"/>
+      <line x1="28.5" y1="28.5" x2="32" y2="32"/>
+      <line x1="32" y1="8" x2="28.5" y2="11.5"/>
+      <line x1="11.5" y1="28.5" x2="8" y2="32"/>
+    </g>
+  </symbol>
+  <!-- Sword (conquest) -->
+  <symbol id="i-sword" viewBox="0 0 40 40">
+    <path d="M20 4 L20 26" stroke="currentColor" stroke-width="2"/>
+    <path d="M14 26 L26 26" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M16 26 L16 32 L24 32 L24 26" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <line x1="20" y1="32" x2="20" y2="36" stroke="currentColor" stroke-width="1.5"/>
+  </symbol>
+  <!-- Scroll (decree / abdication) -->
+  <symbol id="i-scroll" viewBox="0 0 40 40">
+    <rect x="8" y="10" width="24" height="22" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <line x1="13" y1="16" x2="27" y2="16" stroke="currentColor" stroke-width="1.2"/>
+    <line x1="13" y1="21" x2="27" y2="21" stroke="currentColor" stroke-width="1.2"/>
+    <line x1="13" y1="26" x2="22" y2="26" stroke="currentColor" stroke-width="1.2"/>
+  </symbol>
+  <!-- Handshake / transition -->
+  <symbol id="i-trans" viewBox="0 0 40 40">
+    <circle cx="12" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <circle cx="28" cy="20" r="4" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <line x1="16" y1="20" x2="24" y2="20" stroke="currentColor" stroke-width="1.4"/>
+    <polyline points="22,17 25,20 22,23" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  </symbol>
+  <!-- Mountain (sanzan) -->
+  <symbol id="i-mt" viewBox="0 0 40 40">
+    <path d="M4 32 L14 14 L20 22 L26 12 L36 32 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="miter"/>
+  </symbol>
+  <!-- Anchor / sea trade -->
+  <symbol id="i-anchor" viewBox="0 0 40 40">
+    <circle cx="20" cy="9" r="3" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <line x1="20" y1="12" x2="20" y2="32" stroke="currentColor" stroke-width="1.4"/>
+    <line x1="14" y1="16" x2="26" y2="16" stroke="currentColor" stroke-width="1.4"/>
+    <path d="M8 26 Q8 32 20 32 Q32 32 32 26" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  </symbol>
+  <!-- Diamond (decorative) -->
+  <symbol id="i-diamond" viewBox="0 0 20 20">
+    <path d="M10 2 L18 10 L10 18 L2 10 Z" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <path d="M10 6 L14 10 L10 14 L6 10 Z" fill="currentColor"/>
+  </symbol>
+  <!-- Crest / seal — 左三つ巴（ヒジャイグムン） Ryukyu Royal Crest -->
+  <symbol id="i-seal" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="0.8"/>
+    <g fill="currentColor">
+      <!-- 左三つ巴: three tomoe spinning counter-clockwise (heads sweep left) -->
+      <g transform="rotate(0 32 32)">
+        <path d="M32 32
+                 C32 22 38 14 30 10
+                 C22 8  14 14 14 22
+                 C14 28 18 32 22 32
+                 C26 32 28 30 28 27
+                 C28 24 30 22 32 22 Z"/>
+      </g>
+      <g transform="rotate(120 32 32)">
+        <path d="M32 32
+                 C32 22 38 14 30 10
+                 C22 8  14 14 14 22
+                 C14 28 18 32 22 32
+                 C26 32 28 30 28 27
+                 C28 24 30 22 32 22 Z"/>
+      </g>
+      <g transform="rotate(240 32 32)">
+        <path d="M32 32
+                 C32 22 38 14 30 10
+                 C22 8  14 14 14 22
+                 C14 28 18 32 22 32
+                 C26 32 28 30 28 27
+                 C28 24 30 22 32 22 Z"/>
+      </g>
+    </g>
+  </symbol>
+  <!-- Three rings (modern era) -->
+  <symbol id="i-rings" viewBox="0 0 40 40">
+    <circle cx="14" cy="20" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+    <circle cx="26" cy="20" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  </symbol>
+</svg>
+
+<!-- ============ MASTHEAD ============ -->
+<nav class="sitenav"><a href="琉球歴代王統年表.html" class="on">歴代王統年表</a><a href="琉球史料集成.html">史料集成</a><a href="琉球人物誌.html">人物誌</a></nav>
+<header class="masthead inner">
+  <!-- 首里城写真 — 3枚をランダム順でクロスフェードスライド -->
+  <div class="shuri-photo" id="shuriSlideshow">
+    <img src="assets/shuri-photo.jpg"   alt="首里城" style="object-position:center 30%">
+    <img src="assets/shuri-photo-2.jpg" alt="守礼門"   style="object-position:center 40%">
+    <img src="assets/shuri-photo-3.jpg" alt="シーサーの部分" style="object-position:center 55%">
+  </div>
+  <script>
+  (function(){
+    var imgs = document.querySelectorAll('#shuriSlideshow img');
+    var order = [...imgs.keys()];
+    // shuffle
+    for(var i=order.length-1;i>0;i--){
+      var j=Math.floor(Math.random()*(i+1));
+      [order[i],order[j]]=[order[j],order[i]];
+    }
+    var pos=0;
+    imgs[order[0]].classList.add('active');
+    setInterval(function(){
+      imgs[order[pos]].classList.remove('active');
+      pos=(pos+1)%order.length;
+      imgs[order[pos]].classList.add('active');
+    }, 6000);
+  })();
+  </script>
+  <div class="shuri-scrim"></div>
+  <div class="crest">
+    <img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴">
+  </div>
+  <div class="en">Royal Dynasties of the Ryukyu Kingdom</div>
+  <h1>琉球國　歴代王統年表</h1>
+  <div class="subtitle">神話時代 — 琉球処分・1879年</div>
+  <div class="rule"></div>
+  <div class="meta">天孫氏王統 ／ 舜天王統 ／ 英祖王統 ／ 察度王統 ／ 三山時代 ／ 第一尚氏王統 ／ 第二尚氏王統</div>
+</header>
+
+<div class="inner">
+
+<!-- ============ MYTH ============ -->
+<div class="ornament">
+  <div class="line"></div>
+  <div class="mark"><span class="diamond"></span><span>Chapter I · Myth</span><span class="diamond"></span></div>
+  <div class="line"></div>
+</div>
+
+<section class="myth">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-sun"/></svg></div>
+    <div>
+      <h2>天孫氏王統と琉球開闢神話</h2>
+      <div class="en">Tenson Dynasty · The Genesis of Ryukyu</div>
+    </div>
+  </div>
+  <p>天帝の命を受けた女神<span class="kw"><ruby>阿摩美久<rt>Amamikyo</rt></ruby></span>が土・石・草木を携え降り立ち、沖縄諸島と久高島を創造した。その子孫が<span class="kw">25代</span>にわたって琉球を治めたとされるのが天孫氏王統である。『中山世鑑』には1万7802年間続いたと記されるが、現代歴史学では史実として扱わない。</p>
+  <p>人類の始祖として天帝が降ろした男女から3男2女が生まれ、長男は<span class="kw">国王</span>、次男は<ruby>按司<rt>Aji</rt></ruby>、三男は百姓の始祖となった。長女は<ruby>聞得大君<rt>Kikoe-Ōkimi</rt></ruby>（最高神女）、次女は<ruby>ノロ<rt>Noro</rt></ruby>（地方祭司）の始祖となり、これが琉球の王権と女性神職制度の宗教的根拠となった。</p>
+  <p>末期に重臣<span class="kw"><ruby>利勇<rt>Riyū</rt></ruby></span>が反乱を起こし王を殺害。各地の按司の支持を得られず孤立したところを、浦添の按司<span class="kw"><ruby>舜天<rt>Shunten</rt></ruby></span>が討ち、1187年に舜天王統を開いた。</p>
+  <div class="src-note"><b>Source</b>『中山世鑑』向象賢・1650年／『中山世譜』蔡鐸・蔡温／『球陽』1745年</div>
+</section>
+
+<!-- ============ SHUNTEN ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">舜天王統</div>
+  <div class="years">1187 — 1259</div>
+  <div class="line"></div>
+  <div class="roman">Dynasty I</div>
+</div>
+
+<article class="dynasty">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-crown"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">First Royal Line</div>
+      <h2>舜天王統</h2>
+      <div class="sub">Shunten Dynasty</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">Reigns</div><div class="v">3代</div></div>
+      <div class="item"><div class="k">Span</div><div class="v">72年</div></div>
+      <div class="item"><div class="k">Seat</div><div class="v">浦添城</div></div>
+    </div>
+  </div>
+  <div class="dn-desc">源為朝の落胤伝説をもつ。実在の確証はなく、第二尚氏が後世に整備した系譜である可能性が高い。</div>
+
+  <table class="ktbl">
+    <thead><tr>
+      <th class="center">No.</th><th>王名 / King</th><th>在位 Reign</th><th>事績・備考</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq highlight">I</span></td>
+        <td class="name-cell"><div class="name">舜天</div><div class="read">SHUNTEN</div></td>
+        <td class="yr-cell">1187 — 1237</td>
+        <td class="note-cell">利勇を討ち即位。源為朝の落胤伝説あり、実在は未確定。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">舜馬順熙</div><div class="read">SHUNBA-JUNKI</div></td>
+        <td class="yr-cell">1238 — 1248</td>
+        <td class="note-cell">事績はほぼ不明。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">III</span></td>
+        <td class="name-cell"><div class="name">義本</div><div class="read">GIHON</div></td>
+        <td class="yr-cell">1249 — 1259</td>
+        <td class="note-cell">大飢饉・疫病に際し自らの不徳を悟り、英祖に禅譲して隠居。<span class="ev-tag">禅譲 · Abdication</span></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+<!-- ============ TRANSITION 1 ============ -->
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-scroll"/></svg></div>
+    <div class="num">交代 I</div>
+    <div class="ttl">舜天王統 ──→ 英祖王統</div>
+    <div class="yr">A.D. 1260</div>
+  </div>
+  <div class="flow">
+    <span class="pill from">舜天王統 / 義本王</span>
+    <span class="arrow">⟶</span>
+    <span class="pill to">英祖王統 / 英祖王</span>
+  </div>
+  <div class="body">
+    三代・<span class="red">義本王</span>の治世に大飢饉と疫病が相次いだ。義本は「これは自らの不徳ゆえ」と責任を感じ、母が太陽を宿す夢を見て懐妊したと伝わる<span class="teal">英祖</span>を摂政に据えた。英祖が摂政に就くと災厄が収まり民心も彼に向かったため、義本は自ら王位を英祖に禅譲して隠居した。<span class="gold">武力によらぬ平和的な禅譲による王統交代</span>である。
+  </div>
+</div>
+
+<!-- ============ EISO ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">英祖王統</div>
+  <div class="years">1260 — 1349</div>
+  <div class="line"></div>
+  <div class="roman">Dynasty II</div>
+</div>
+
+<article class="dynasty">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-sun"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">Second Royal Line</div>
+      <h2>英祖王統</h2>
+      <div class="sub">Eiso Dynasty</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">Reigns</div><div class="v">5代</div></div>
+      <div class="item"><div class="k">Span</div><div class="v">89年</div></div>
+      <div class="item"><div class="k">Seat</div><div class="v">浦添城</div></div>
+    </div>
+  </div>
+  <div class="dn-desc">実在した可能性が高い、沖縄生まれ最初の王統。<ruby>テダコ<rt>Sun Child</rt></ruby>と呼ばれた英祖が義本から禅譲を受け開統。農業振興・租税公平化・仏教初導入。四代・玉城の乱政が三山分立の遠因となった。</div>
+
+  <table class="ktbl">
+    <thead><tr>
+      <th class="center">No.</th><th>王名 / King</th><th>在位 Reign</th><th>事績・備考</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq highlight">I</span></td>
+        <td class="name-cell"><div class="name">英祖</div><div class="read">EISO</div></td>
+        <td class="yr-cell">1260 — 1299</td>
+        <td class="note-cell">テダコ（太陽の子）と呼ばれる。農業振興・仏教初導入。在位39年。浦添ようどれ（王陵）に葬られる。<span class="ev-tag gold">在位39年</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">大成</div><div class="read">TAISEI</div></td>
+        <td class="yr-cell">1299 — 1308</td>
+        <td class="note-cell">治世は平穏。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">III</span></td>
+        <td class="name-cell"><div class="name">英慈</div><div class="read">EIJI</div></td>
+        <td class="yr-cell">1308 — 1313</td>
+        <td class="note-cell">大成の次男。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">玉城</div><div class="read">TAMAGUSUKU</div></td>
+        <td class="yr-cell">1313 — 1336</td>
+        <td class="note-cell">酒色に溺れ王権衰退。三山分立の遠因となる。<span class="ev-tag">三山分立の遠因</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">西威</div><div class="read">SEII</div></td>
+        <td class="yr-cell">1336 — 1349</td>
+        <td class="note-cell">十歳頃で即位。国威回復できず若くして病死。世子を廃し民心の厚い察度を臣下が擁立。</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+<!-- ============ TRANSITION 2 ============ -->
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-scroll"/></svg></div>
+    <div class="num">交代 II</div>
+    <div class="ttl">英祖王統 ──→ 察度王統</div>
+    <div class="yr">A.D. 1350</div>
+  </div>
+  <div class="flow">
+    <span class="pill from">英祖王統 / 西威王</span>
+    <span class="arrow">⟶</span>
+    <span class="pill to">察度王統 / 察度王</span>
+  </div>
+  <div class="body">
+    五代・<span class="red">西威王</span>が十歳頃で即位するも、四代・玉城王の乱政で崩れた国威を回復できず若くして病死した。後継を擁立しようとする動きもあったが、臣下たちは「国の安泰を願って」世子を廃し、民から幅広い信望を集めていた浦添の按司<span class="teal">察度</span>を新たな王に擁立した。<span class="gold">血統によらず民望と実力による擁立</span>という形の王統交代である。
+  </div>
+</div>
+
+<!-- ============ SATTO ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">察度王統</div>
+  <div class="years">1350 — 1406</div>
+  <div class="line"></div>
+  <div class="roman">Dynasty III</div>
+</div>
+
+<article class="dynasty">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-anchor"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">Third Royal Line</div>
+      <h2>察度王統 <span style="font-size:13px;color:var(--ink-3);letter-spacing:.15em;margin-left:8px">（中山）</span></h2>
+      <div class="sub">Satto Dynasty · Chūzan</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">Reigns</div><div class="v">2代</div></div>
+      <div class="item"><div class="k">Span</div><div class="v">56年</div></div>
+      <div class="item"><div class="k">Seat</div><div class="v">浦添城</div></div>
+    </div>
+  </div>
+  <div class="dn-desc">天女伝説をもつ察度が群臣の推挙で即位。1372年に泰期を明へ派遣し琉球史上初の対明進貢を実現。三山時代を通じ中山王として継続した。</div>
+
+  <table class="ktbl">
+    <thead><tr>
+      <th class="center">No.</th><th>王名 / King</th><th>在位 Reign</th><th>事績・備考</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq highlight">I</span></td>
+        <td class="name-cell"><div class="name">察度</div><div class="read">SATTO</div></td>
+        <td class="yr-cell">1350 — 1395</td>
+        <td class="note-cell">宜野湾・森川の泉の天女伝説。1372年、明へ初進貢。<span class="ev-tag teal">対明進貢開始</span></td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">武寧</div><div class="read">BUNEI</div></td>
+        <td class="yr-cell">1396 — 1406</td>
+        <td class="note-cell">1404年、明より「中山王」として最初の冊封。1406年、尚巴志に滅ぼされる。<span class="ev-tag">察度王統滅亡</span></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+<!-- ============ TRANSITION 3 ============ -->
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-sword"/></svg></div>
+    <div class="num">交代 III</div>
+    <div class="ttl">察度王統 ──→ 第一尚氏王統</div>
+    <div class="yr">A.D. 1406</div>
+  </div>
+  <div class="flow">
+    <span class="pill from">察度王統 / 武寧王</span>
+    <span class="arrow">⟶</span>
+    <span class="pill to">第一尚氏王統 / 尚思紹</span>
+  </div>
+  <div class="body">
+    沖縄本島南部・佐敷の按司<span class="teal">尚巴志</span>は、1402年に島添大里按司を破って勢力を拡大。1406年、中山王<span class="red">武寧</span>を武力で攻め滅ぼし、父・尚思紹を中山王位に就けた。各地の按司たちは暴君を倒した巴志を歓迎したとも伝わる。明朝という外交的後ろ盾を重視し、武寧の世子と偽って明へ使者を派遣、思紹が正式に王爵を継承した。<span class="gold">武力による下克上</span>であり、1416年に北山、1429年に南山をも滅ぼして三山統一を実現した。
+  </div>
+</div>
+
+<!-- ============ SANZAN (Three Mountains) ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">三山時代</div>
+  <div class="years">c.1322 — 1429</div>
+  <div class="line"></div>
+  <div class="roman">Three Mountains</div>
+</div>
+
+<div class="sanzan-note">
+  英祖王統四代・玉城王の乱政から三山が分立。北山・南山はいずれも英祖王統の血筋とされる。三山それぞれが独立して明へ朝貢（北山17回・中山52回・南山26回）。1416年に北山、1429年に南山を滅ぼし、尚巴志が三山統一を達成した。
+</div>
+
+<div class="sanzan-grid">
+  <div class="sblock hokuz">
+    <div class="sh">
+      <div class="si"><svg><use href="#i-mt"/></svg></div>
+      <div>
+        <div class="nm">北山</div>
+        <div class="lc">HOKUZAN · 今帰仁城</div>
+      </div>
+    </div>
+    <table class="ktbl compact">
+      <thead><tr><th class="center">No.</th><th>王名</th><th>在位</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell"><span class="seq">I</span></td><td class="name-cell"><div class="name">怕尼芝</div><div class="read">HANIJI</div></td><td class="yr-cell">c.1322–1395</td></tr>
+        <tr><td class="num-cell"><span class="seq">II</span></td><td class="name-cell"><div class="name">珉</div><div class="read">MIN</div></td><td class="yr-cell">1396–1400</td></tr>
+        <tr class="event"><td class="num-cell"><span class="seq">III</span></td><td class="name-cell"><div class="name">攀安知</div><div class="read">HAN-ANCHI</div></td><td class="yr-cell">1401–1416<br><span class="ev-tag">滅亡</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sblock chuz">
+    <div class="sh">
+      <div class="si"><svg><use href="#i-mt"/></svg></div>
+      <div>
+        <div class="nm">中山</div>
+        <div class="lc">CHŪZAN · 浦添 → 首里</div>
+      </div>
+    </div>
+    <table class="ktbl compact">
+      <thead><tr><th class="center">No.</th><th>王名</th><th>在位</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell"><span class="seq">I</span></td><td class="name-cell"><div class="name">察度</div><div class="read">SATTO</div></td><td class="yr-cell">1350–1395</td></tr>
+        <tr><td class="num-cell"><span class="seq">II</span></td><td class="name-cell"><div class="name">武寧</div><div class="read">BUNEI</div></td><td class="yr-cell">1396–1406</td></tr>
+        <tr><td class="num-cell"><span class="seq">III</span></td><td class="name-cell"><div class="name">尚思紹</div><div class="read">SHŌ SHISHŌ</div></td><td class="yr-cell">1406–1421</td></tr>
+        <tr class="event"><td class="num-cell"><span class="seq">IV</span></td><td class="name-cell"><div class="name">尚巴志</div><div class="read">SHŌ HASHI</div></td><td class="yr-cell">1422–1439<br><span class="ev-tag teal">三山統一</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sblock nanz">
+    <div class="sh">
+      <div class="si"><svg><use href="#i-mt"/></svg></div>
+      <div>
+        <div class="nm">南山</div>
+        <div class="lc">NANZAN · 島尻大里城</div>
+      </div>
+    </div>
+    <table class="ktbl compact">
+      <thead><tr><th class="center">No.</th><th>王名</th><th>在位</th></tr></thead>
+      <tbody>
+        <tr><td class="num-cell"><span class="seq">I</span></td><td class="name-cell"><div class="name">承察度</div><div class="read">SHŌ-SATTO</div></td><td class="yr-cell">c.1337–1398</td></tr>
+        <tr><td class="num-cell"><span class="seq">II</span></td><td class="name-cell"><div class="name">汪英紫</div><div class="read">Ō-EIJI</div></td><td class="yr-cell">1399–1402</td></tr>
+        <tr><td class="num-cell"><span class="seq">III</span></td><td class="name-cell"><div class="name">汪応祖</div><div class="read">Ō-ŌSO</div></td><td class="yr-cell">1403–1413</td></tr>
+        <tr><td class="num-cell"><span class="seq">IV</span></td><td class="name-cell"><div class="name">達勃期</div><div class="read">TAFUCHI</div></td><td class="yr-cell">1414</td></tr>
+        <tr class="event"><td class="num-cell"><span class="seq">V</span></td><td class="name-cell"><div class="name">他魯毎</div><div class="read">TARUMAI</div></td><td class="yr-cell">1415–1429<br><span class="ev-tag">滅亡・三山統一</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ============ FIRST SHO ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">第一尚氏王統</div>
+  <div class="years">1406 — 1469</div>
+  <div class="line"></div>
+  <div class="roman">Dynasty IV</div>
+</div>
+
+<article class="dynasty">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-sword"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">Fourth Royal Line</div>
+      <h2>第一尚氏王統</h2>
+      <div class="sub">First Shō Dynasty</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">Reigns</div><div class="v">7代</div></div>
+      <div class="item"><div class="k">Span</div><div class="v">63年</div></div>
+      <div class="item"><div class="k">Seat</div><div class="v">首里城</div></div>
+    </div>
+  </div>
+  <div class="dn-desc">尚巴志が父・尚思紹を中山王位に就け、1429年に三山統一を達成。明から「尚」姓を賜ったと伝わる。中央集権化政策は十分に進まず、地方按司の勢力が強いまま七代・尚徳の代で群臣のクーデターにより断絶した。</div>
+
+  <table class="ktbl">
+    <thead><tr>
+      <th class="center">No.</th><th>王名 / King</th><th>在位 Reign</th><th>事績・備考</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">尚思紹</div><div class="read">SHŌ SHISHŌ</div></td>
+        <td class="yr-cell">1406 — 1421</td>
+        <td class="note-cell">尚巴志が父を中山王に擁立。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq highlight">II</span></td>
+        <td class="name-cell"><div class="name">尚巴志</div><div class="read">SHŌ HASHI</div></td>
+        <td class="yr-cell">1422 — 1439</td>
+        <td class="note-cell">1402年、南山王の島添大里城を攻略。1406年、中山王武寧を滅ぼし父・尚思紹を中山王位に就ける。1416年に北山（今帰仁城）を攻め落とし、1421年に父の跡を継いで即位。1429年、南山を滅ぼして<b style="color:var(--gold-3);font-weight:500">三山統一</b>を達成した。明から「尚」姓を賜ったと伝わる。<br><br>王城を浦添から<b style="color:var(--gold-3);font-weight:500">首里</b>へ定め、外港として那覇を整備。1427年、国相・懐機に命じて首里城北側に龍潭を掘り、その土で安国山を築いて中国渡りの花木を植え、経緯を刻んだ<b style="color:var(--gold-3);font-weight:500">安国山樹華木記碑</b>を建てた。対明進貢と東南アジア交易の体制を整え、のちの大交易時代の基礎を築いた王とされる。<br><br><b style="color:var(--gold-3);font-weight:500">北山王・攀安知との戦い</b>　北山王<ruby>攀安知<rt>はんあんち</rt></ruby>は武勇に優れる一方、驕りが強く臣下の心が離れていたと伝わる。1416年、尚巴志は<ruby>羽地<rt>はねじ</rt></ruby>・<ruby>国頭<rt>くにがみ</rt></ruby>・<ruby>名護<rt>なご</rt></ruby>などの按司を味方につけて<ruby>今帰仁城<rt>なきじんぐすく</rt></ruby>を囲んだ。城は堅く容易に落ちなかったが、攀安知の重臣<ruby>本部平原<rt>もとぶてぃーはら</rt></ruby>が内応し、攀安知が出撃した隙に城内へ火を放った。<br><br>敗れを悟った攀安知は、城の守護神とされた<b style="color:var(--gold-3);font-weight:500">霊石</b>を「お前が守らぬから敗れた」と宝刀で斬りつけ、自害したという。その刀は<ruby>志慶真川<rt>しげまがわ</rt></ruby>に投げ込まれ、のちに拾い上げられて尚家に献上されたと伝わる。これが<b style="color:var(--gold-3);font-weight:500"><ruby>千代金丸<rt>ちよがねまる</rt></ruby></b>で、2006年に「琉球国王尚家関係資料」の一つとして国宝に指定され、那覇市歴史博物館が所蔵している。北山の滅亡後、尚巴志は次男・<ruby>尚忠<rt>しょうちゅう</rt></ruby>を<b style="color:var(--gold-3);font-weight:500">北山監守</b>として今帰仁に置いた。<div class="dissent" style="margin-top:10px;padding:8px 12px;border:1px dashed rgba(62,136,112,.5);font-size:12px;line-height:1.85"><b style="color:var(--teal);font-weight:500;margin-right:6px">諸説</b>霊石を斬った話や千代金丸の由来は『中山世鑑』などの後世の史書と伝承によるもので、同時代の記録では確かめられない。王府の史書は勝者の側から書かれており、攀安知の暴君像にもその視点が反映しているとみられる。</div><div class="src-note" style="margin-top:8px"><b>Source</b>『中山世鑑』『中山世譜』／ 今帰仁村歴史文化センター「今帰仁城跡」解説／ 那覇市歴史博物館「千代金丸」（国宝 琉球国王尚家関係資料）</div><span class="ev-tag">北山滅亡 1416</span><span class="ev-tag teal">三山統一</span><span class="ev-tag gold">安国山樹華木記碑</span><span class="ev-tag gold">首里遷都</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">III</span></td>
+        <td class="name-cell"><div class="name">尚忠</div><div class="read">SHŌ CHŪ</div></td>
+        <td class="yr-cell">1439 — 1444</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">尚思達</div><div class="read">SHŌ SHITATSU</div></td>
+        <td class="yr-cell">1444 — 1449</td>
+        <td class="note-cell">1447年、奄美大島を版図に加える。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">尚金福</div><div class="read">SHŌ KINPUKU</div></td>
+        <td class="yr-cell">1450 — 1453</td>
+        <td class="note-cell">長虹堤・浮島神社（長寿宮）を創建。<span class="ev-tag gold">琉球初の神社</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VI</span></td>
+        <td class="name-cell"><div class="name">尚泰久</div><div class="read">SHŌ TAIKYŪ</div></td>
+        <td class="yr-cell">1454 — 1460</td>
+        <td class="note-cell">「万国津梁の鐘」鋳造（1458年）。護佐丸・阿麻和利の乱（1458年）。明・東南アジア交易推進。<span class="ev-tag teal">万国津梁</span></td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">VII</span></td>
+        <td class="name-cell"><div class="name">尚徳</div><div class="read">SHŌ TOKU</div></td>
+        <td class="yr-cell">1461 — 1469</td>
+        <td class="note-cell">1466年、喜界島討伐。独断専行で群臣の支持を失う。1469年、金丸のクーデターで王統断絶。<span class="ev-tag">第一尚氏滅亡</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- COLUMN -->
+  <div style="margin-top:28px;border:1px solid var(--gold-soft);background:rgba(201,164,74,.04)">
+    <div style="padding:14px 22px;border-bottom:1px solid var(--gold-soft);display:flex;align-items:center;gap:12px;background:rgba(201,164,74,.06)">
+      <svg style="width:18px;height:18px;color:var(--gold-2)"><use href="#i-diamond"/></svg>
+      <div style="font-size:12px;letter-spacing:.3em;color:var(--gold-2);font-family:var(--serif-en);text-transform:uppercase">Column · 長虹堤と浮島神社</div>
+    </div>
+    <div style="padding:22px;font-size:13.5px;line-height:2;color:var(--ink-2)">
+      <p style="margin-bottom:14px"><span style="color:var(--gold-3);font-weight:500">長虹堤（ちょうこうてい）</span>は1451年、五代・<ruby>尚金福<rt>Shō Kinpuku</rt></ruby>王の命により宰相<ruby>懐機<rt>Kaiki</rt></ruby>が建設した全長約1キロメートルの海中道路。<ruby>浮島<rt>Ukishima</rt></ruby>（現・那覇市久米〜松山付近）と首里を結び、明の冊封使を迎えるための重要インフラだった。当時の那覇は離れ島で、冊封使上陸のたびに国中の船を集めて舟橋とする難儀があった。</p>
+      <p>懐機は2夜3昼の祈祷ののち着工。完成後に<ruby>天照大神<rt>Amaterasu</rt></ruby>を祀った<span style="color:var(--gold-3);font-weight:500">長寿宮</span>（後の<ruby>浮島神社<rt>Ukishima-jinja</rt></ruby>）を那覇若狭町に創建した。<span style="color:var(--teal)">これが史書で確認できる琉球初の神社建立の記録</span>である。浮島神社は1988年に波上宮内仮宮へ遷座。長虹堤は1633年、冊封使・胡靖の「遠望すれば長虹の如し」の言葉から命名された。</p>
+      <div class="src-note"><b>Source</b>『球陽』／『中山世譜』／ 波上宮・浮島神社由緒／ 那覇市史</div>
+    </div>
+  </div>
+  <!-- COLUMN — 安国山樹華木記碑 -->
+  <div style="margin-top:22px;border:1px solid var(--gold-soft);background:rgba(201,164,74,.04)">
+    <div style="padding:14px 22px;border-bottom:1px solid var(--gold-soft);display:flex;align-items:center;gap:12px;background:rgba(201,164,74,.06)">
+      <svg style="width:18px;height:18px;color:var(--gold-2)"><use href="#i-scroll"/></svg>
+      <div style="font-size:12px;letter-spacing:.3em;color:var(--gold-2);font-family:var(--serif-en);text-transform:uppercase">Column · 安国山樹華木記碑</div>
+    </div>
+    <div style="padding:22px;font-size:13.5px;line-height:2;color:var(--ink-2)">
+      <p style="margin-bottom:14px"><span style="color:var(--gold-3);font-weight:500"><ruby>安国山樹華木記碑<rt>あんこくざんじゅかぼくのきひ</rt></ruby></span>は、1427年（宣徳2年）、中山王<ruby>尚巴志<rt>Shō Hashi</rt></ruby>の世に建てられた石碑である。国相（宰相）<ruby>懐機<rt>Kaiki</rt></ruby>が首里城の北側を掘って人工池<span style="color:var(--gold-3);font-weight:500">龍潭</span>をつくり、掘った土で<span style="color:var(--gold-3);font-weight:500">安国山</span>を築いて中国から取り寄せた花木を植えた。その造営事業の経緯を記したのがこの碑である。</p>
+      <p style="margin-bottom:14px">造営の目的は単なる庭園づくりではない。首里城は標高約136メートルの丘陵上にあり、周囲に開けた水面がなかった。龍潭を掘ることで城は水を得て景観を整え、あわせて<span style="color:var(--gold-3);font-weight:500">明の冊封使をもてなす舟遊の場</span>が生まれた。安国山に植えられたのは中国から取り寄せた花木で、王府が中国文化を受け入れる姿勢を目に見える形で示すものであった。工事は国相・懐機の指揮のもと、諸間切から人夫を集めて行われたと伝わる。</p>
+      <p style="margin-bottom:14px">碑文は漢文で記され、明からの使者として渡来していた<ruby>柴山<rt>Saishan</rt></ruby>が撰文したとされる。<span style="color:var(--teal)">現存する琉球の石碑として最古のもの</span>であり、王国初期の土木事業と対中関係を同時に伝える一級史料として重んじられる。</p>
+      <p style="margin-bottom:14px">碑はのちに損壊し、現在伝わるのは上半部を中心とした断片である。残存部の文字と『球陽』などの後世の史書に引かれた本文とをあわせて全文が読まれてきた。現物は<span style="color:var(--gold-3);font-weight:500">沖縄県立博物館・美術館</span>の所蔵となっている。</p>
+      <p style="margin-bottom:14px">龍潭は現在も首里城の北側に水を溜めており、周囲は龍潭通りとして正殿を見上げる景観をなす。安国山の地名は現在も那覇市首里に残る。造営から二年後の1429年に尚巴志が三山統一を達成していることから、この事業は<span style="color:var(--teal)">統一直前の王府がすでに国家規模の土木と対外儀礼を運用できる段階に達していた</span>ことを示すと見られている。</p>
+      <div class="src-note"><b>Source</b>『安国山樹華木記』1427年（沖縄最古の碑文）／ 国営沖縄記念公園事務所『首里城の歴史と公園整備の経緯』／『球陽』／ 沖縄県立博物館・美術館 所蔵資料「安国山樹華木記碑」</div>
+    </div>
+  </div>
+</article>
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-scroll"/></svg></div>
+    <div class="num">交代 IV</div>
+    <div class="ttl">第一尚氏王統 ──→ 第二尚氏王統</div>
+    <div class="yr">A.D. 1469 / 70</div>
+  </div>
+  <div class="flow">
+    <span class="pill from">第一尚氏 / 尚徳王</span>
+    <span class="arrow">⟶</span>
+    <span class="pill to">第二尚氏 / 尚円王（金丸）</span>
+  </div>
+  <div class="body">
+    七代・<span class="red">尚徳王</span>は独断専行が目立ち群臣の支持を失っていた。1469年に尚徳が没すると、かつて尚泰久王に仕え御物城御鎖之側（対外交易長官）まで出世していた<span class="teal">金丸（かなまる）</span>を群臣が推戴。金丸は当初辞退したが最終的に即位し、尚徳の子として偽りの上表を明へ送って1472年に冊封を受けた（尚円王）。これが第二尚氏王統の始まりである。<span class="gold">群臣によるクーデター</span>という形をとっており、第一尚氏が有効な中央集権化政策を実施できず地方の按司の勢力が強いままだったことが遠因とされる。
+  </div>
+</div>
+
+<!-- ============ TRANSITION 4 ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">第二尚氏王統</div>
+  <div class="years">1470 — 1879</div>
+  <div class="line"></div>
+  <div class="roman">Dynasty V</div>
+</div>
+
+<article class="dynasty">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-crown"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">Fifth Royal Line</div>
+      <h2>第二尚氏王統</h2>
+      <div class="sub">Second Shō Dynasty</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">Reigns</div><div class="v">19代</div></div>
+      <div class="item"><div class="k">Span</div><div class="v">410年</div></div>
+      <div class="item"><div class="k">Seat</div><div class="v">首里城</div></div>
+    </div>
+  </div>
+  <div class="dn-desc">伊是名島出身の農民・金丸（尚円王）が群臣の推挙で即位し開統。三代・尚真王の在位50年で按司を首里へ集住させ中央集権化を達成、琉球の黄金時代を築く。1609年の薩摩侵攻、1879年の琉球処分により410年で王国は滅亡した。</div>
+
+  <table class="ktbl">
+    <thead><tr>
+      <th class="center">No.</th><th>王名 / King</th><th>在位 Reign</th><th>事績・備考</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">尚円</div><div class="read">SHŌ EN</div></td>
+        <td class="yr-cell">1470 — 1476</td>
+        <td class="note-cell">伊是名島出身の農民・金丸が群臣の推挙で即位。1472年、明から冊封を受ける。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">尚宣威</div><div class="read">SHŌ SEN-I</div></td>
+        <td class="yr-cell">1477</td>
+        <td class="note-cell">尚円の弟。即位わずか半年で神託により退位。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq highlight">III</span></td>
+        <td class="name-cell"><div class="name">尚真</div><div class="read">SHŌ SHIN</div></td>
+        <td class="yr-cell">1477 — 1526</td>
+        <td class="note-cell">在位50年。按司を首里へ集住させ中央集権化。琉球黄金時代を築く。<span class="ev-tag teal">黄金時代</span><span class="ev-tag gold">在位50年</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">尚清</div><div class="read">SHŌ SEI</div></td>
+        <td class="yr-cell">1527 — 1555</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">尚元</div><div class="read">SHŌ GEN</div></td>
+        <td class="yr-cell">1556 — 1572</td>
+        <td class="note-cell">倭寇の那覇侵入を撃退。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VI</span></td>
+        <td class="name-cell"><div class="name">尚永</div><div class="read">SHŌ EI</div></td>
+        <td class="yr-cell">1573 — 1588</td>
+        <td class="note-cell">守礼門に「守礼之邦」の額が掲げられる。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">VII</span></td>
+        <td class="name-cell"><div class="name">尚寧</div><div class="read">SHŌ NEI</div></td>
+        <td class="yr-cell">1589 — 1620</td>
+        <td class="note-cell">1609年、薩摩・島津氏の琉球侵攻。兵3000に降伏し幕藩体制下に組み込まれる。<span class="ev-tag">薩摩侵攻</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VIII</span></td>
+        <td class="name-cell"><div class="name">尚豊</div><div class="read">SHŌ HŌ</div></td>
+        <td class="yr-cell">1621 — 1640</td>
+        <td class="note-cell">薩摩の命で「琉球国司」称号を強いられる。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IX</span></td>
+        <td class="name-cell"><div class="name">尚賢</div><div class="read">SHŌ KEN</div></td>
+        <td class="yr-cell">1641 — 1647</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">X</span></td>
+        <td class="name-cell"><div class="name">尚質</div><div class="read">SHŌ SHITSU</div></td>
+        <td class="yr-cell">1648 — 1668</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XI</span></td>
+        <td class="name-cell"><div class="name">尚貞</div><div class="read">SHŌ TEI</div></td>
+        <td class="yr-cell">1669 — 1709</td>
+        <td class="note-cell">1689年、系図座を設置。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XII</span></td>
+        <td class="name-cell"><div class="name">尚益</div><div class="read">SHŌ EKI</div></td>
+        <td class="yr-cell">1710 — 1712</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XIII</span></td>
+        <td class="name-cell"><div class="name">尚敬</div><div class="read">SHŌ KEI</div></td>
+        <td class="yr-cell">1713 — 1751</td>
+        <td class="note-cell">蔡温を重用。王号を正式に回復。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XIV</span></td>
+        <td class="name-cell"><div class="name">尚穆</div><div class="read">SHŌ BOKU</div></td>
+        <td class="yr-cell">1752 — 1794</td>
+        <td class="note-cell">─</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XV</span></td>
+        <td class="name-cell"><div class="name">尚温</div><div class="read">SHŌ ON</div></td>
+        <td class="yr-cell">1795 — 1802</td>
+        <td class="note-cell">若くして夭折。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XVI</span></td>
+        <td class="name-cell"><div class="name">尚成</div><div class="read">SHŌ SEI</div></td>
+        <td class="yr-cell">1803</td>
+        <td class="note-cell">二歳で即位、わずか1年足らずで夭折。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XVII</span></td>
+        <td class="name-cell"><div class="name">尚灝</div><div class="read">SHŌ KŌ</div></td>
+        <td class="yr-cell">1804 — 1834</td>
+        <td class="note-cell">1816年、英国人バジル・ホール来琉。晩年に精神を病み1828年から世子・尚育が摂位。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">XVIII</span></td>
+        <td class="name-cell"><div class="name">尚育</div><div class="read">SHŌ IKU</div></td>
+        <td class="yr-cell">1835 — 1847</td>
+        <td class="note-cell">1828年から摂政、1835年に正式即位。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">XIX</span></td>
+        <td class="name-cell"><div class="name">尚泰</div><div class="read">SHŌ TAI</div></td>
+        <td class="yr-cell">1848 — 1879</td>
+        <td class="note-cell">四歳で即位。1872年、琉球藩王。1879年、琉球処分により日本に併合され王国滅亡。<span class="ev-tag">琉球処分</span></td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+<!-- ============ TRANSITION 5 ============ -->
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-sword"/></svg></div>
+    <div class="num">王統終焉 V</div>
+    <div class="ttl">第二尚氏王統 ──→ 琉球処分</div>
+    <div class="yr">A.D. 1879</div>
+  </div>
+  <div class="flow">
+    <span class="pill from">琉球王国 / 尚泰王</span>
+    <span class="arrow">⟶</span>
+    <span class="pill to">沖縄県 / 大日本帝国</span>
+  </div>
+  <div class="body">
+    明治維新後、日本政府は1872年に一方的に<span class="red">琉球藩</span>を設置。19代・<span class="red">尚泰王</span>は日中両属の維持を望んだが、1879年3月、松田道之が警察官160人・軍人600人を率いて那覇へ上陸し廃藩を布告。尚泰は同月29日に首里城を退去し、<span class="teal">410年続いた第二尚氏王統・琉球王国が滅亡</span>した。これは武力を背景にした<span class="gold">明治政府による強制的な廃藩置県</span>であり、琉球・沖縄史上最大の政治的断絶として現在も語り継がれている。
+  </div>
+</div>
+
+<!-- ============ MODERN ============ -->
+<div class="era">
+  <div class="nub"></div>
+  <div class="name">近現代</div>
+  <div class="years">1879 — Present</div>
+  <div class="line"></div>
+  <div class="roman">Modern Era</div>
+</div>
+
+<article class="dynasty" style="padding-bottom:14px">
+  <span class="br-bl"></span><span class="br-br"></span>
+  <div class="dn-head">
+    <div class="dn-icon"><svg><use href="#i-rings"/></svg></div>
+    <div class="dn-titles">
+      <div class="num">After the Kingdom</div>
+      <h2>沖縄・近現代</h2>
+      <div class="sub">Modern Okinawa</div>
+    </div>
+    <div class="dn-stats">
+      <div class="item"><div class="k">From</div><div class="v">1879</div></div>
+      <div class="item"><div class="k">To</div><div class="v">現在</div></div>
+    </div>
+  </div>
+  <ul class="modern" style="list-style:none">
+    <li class="item"><span class="dot"></span><span class="yr">1879</span><span class="lbl">琉球処分・沖縄県設置</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1879 — 1945</span><span class="lbl">日本統治時代</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1945 — 1972</span><span class="lbl">米国統治時代（琉球政府設立）</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1972 —</span><span class="lbl">沖縄本土復帰</span></li>
+  </ul>
+</article>
+
+<!-- ============ SHURI CASTLE ============ -->
+<div class="ornament">
+  <div class="line"></div>
+  <div class="mark"><span class="diamond"></span><span>Chapter · Shuri Castle</span><span class="diamond"></span></div>
+  <div class="line"></div>
+</div>
+
+<section class="myth">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-castle"/></svg></div>
+    <div>
+      <h2>首里城 ── 創建と屋根の変遷</h2>
+      <div class="en">Shurijo · Founding and the Roof</div>
+    </div>
+  </div>
+  <p><span class="kw">正確な築城年も築城主も判明していない。</span>伝承では14世紀中頃に<span class="kw">察度</span>が浦添城から移って築いたとする説、1406年以降に<span class="kw">尚巴志</span>が築いたとする説がある。正殿跡の発掘調査では14世紀中期から後期に相当する遺構が確認されており、少なくともその頃には城が存在していた。1427年の『<ruby>安国山樹華木記<rt>あんこくざんじゅかぼくのき</rt></ruby>』に城の北側へ龍潭を掘ったと記されることから、この時期には城を含む一帯が整備されていたことがわかる。</p>
+  <p>建築様式は中国の宮殿建築と日本の社寺建築の影響が融合した琉球独自の意匠で、曲線を描く城壁・多くの広場・城内の御嶽という<ruby>グスク<rt>Gusuku</rt></ruby>の性格を保つ。丘陵のもっとも高い地点は標高約136メートル。</p>
+  <p>屋根は当初<span class="kw">瓦でなく板葺き</span>であった。1660年の火災後に再建された首里城で瓦葺きとなるが、発掘調査で出土する当時の瓦は赤ではなく<span class="kw">灰色</span>である。もっとも古い時期の瓦は朝鮮半島の技術による<ruby>高麗系瓦<rt>Kōrai-kei</rt></ruby>と日本本土の技術による<ruby>大和系瓦<rt>Yamato-kei</rt></ruby>で、いずれも灰色。16世紀後半からは中国系の灰色瓦が焼かれた。</p>
+  <p><span class="kw">赤瓦</span>が用いられるのは、再度の焼失を経て<span class="kw">1715年に再建された首里城から</span>である。背景には人口増加による薪不足があった。灰色瓦は高温で焼く必要があるが、赤瓦は低温で焼けるため燃料を節約できる。琉球王府はあわせて山原への植林と各村の山の管理を進めた。灰色瓦は19世紀初めには生産されなくなったと推定されている。瓦屋根そのものが士族の家や窯元・酒屋など火を扱う家業に限られ、一般に赤瓦が解禁されたのは明治以降である。</p>
+  <div class="src-note"><b>Source</b>国営沖縄記念公園 首里城公園「首里城の赤瓦」／ 沖縄県立博物館・美術館 収蔵資料コラム「首里城の建物に葺かれていた瓦の色は赤色なのか、灰色なのか」／ 上原靜（沖縄国際大学・考古学）の瓦研究／ 国営沖縄記念公園事務所『首里城の歴史と公園整備の経緯』／ 沖縄県公式サイト「首里城と京の内」</div>
+</section>
+
+<section class="myth" style="margin-top:8px">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-castle"/></svg></div>
+    <div>
+      <h2>百浦添御殿 ── 正殿の呼び名</h2>
+      <div class="en">Momo-urasoe Udun · The Main Hall</div>
+    </div>
+  </div>
+  <p>首里城正殿は、王府の文書や記録のなかで<span class="kw"><ruby>百浦添御殿<rt>Momo-urasoe Udun</rt></ruby></span>と呼ばれた。沖縄の言葉では<span class="kw">ももうらそえうどぅん</span>、あるいは<ruby>ムムンダスィウドゥン<rt>Mumundasi Udun</rt></ruby>とも音写される。「御殿」は王族や高位の屋敷を指す敬称である。</p>
+  <p>「百浦添」の<span class="kw">百</span>は数の百ではなく<span class="kw">数多く</span>の意、<span class="kw">浦添</span>は<span class="kw">浦（うら）を襲う＝支配する</span>の意とされる。あわせて<span class="kw">「多くの浦（港・集落）を治める御殿」</span>、すなわち国土全体を統べる王の居所という含みをもつ。同じ語構成の地名が現在の<ruby>浦添<rt>Urasoe</rt></ruby>（現・浦添市）であり、英祖王統・察度王統の王城が置かれた土地の名でもある。</p>
+  <p>正殿は木造三階建て、正面は<span class="kw">唐破風</span>と向拝を備え、大龍柱・小龍柱が階前に立つ。一階は<ruby>下庫理<rt>Shichagui</rt></ruby>で国王が政務をとり、二階は<ruby>大庫理<rt>Ufugui</rt></ruby>で国王と親族・女官が儀式を行い、三階は通風のための屋根裏であった。正殿前の<ruby>御庭<rt>Una</rt></ruby>で元日の朝拝や冊封の儀が行われ、この一連の空間の総称としても百浦添の名が使われた。</p>
+  <p>正殿内には歴代の中国皇帝から下賜された<span class="kw">御書</span>の扁額が掲げられ、なかでも康熙帝の「中山世土」、雍正帝の「輯瑞球陽」、乾隆帝の「永祚瀛壖」が知られる。いずれも沖縄戦で焼失し、写真と記録から復元された。</p>
+  <div class="src-note"><b>Source</b>国営沖縄記念公園 首里城公園「正殿」「御庭」解説／ 沖縄県公式サイト「首里城」／『琉球国由来記』／『球陽』／ 国営沖縄記念公園事務所『首里城の歴史と公園整備の経緯』</div>
+</section>
+
+<div class="transition" style="margin-top:22px">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-castle"/></svg></div>
+    <div class="num">Roof</div>
+    <div class="ttl">屋根の変遷</div>
+    <div class="yr">14C — 1715</div>
+  </div>
+  <table class="ktbl">
+    <thead><tr><th class="center">期</th><th>屋根 / Roof</th><th>年代</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">板葺き</div><div class="read">WOODEN SHINGLE</div></td>
+        <td class="yr-cell">創建 — 1660</td>
+        <td class="note-cell">瓦を用いない木の板の屋根。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">灰色瓦</div><div class="read">GREY TILE</div></td>
+        <td class="yr-cell">1660 — 1715</td>
+        <td class="note-cell">1660年の火災後の再建で瓦葺きに。高麗系・大和系、のち中国系の灰色瓦。高温焼成。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq highlight">III</span></td>
+        <td class="name-cell"><div class="name">赤瓦</div><div class="read">RED TILE</div></td>
+        <td class="yr-cell">1715 —</td>
+        <td class="note-cell">低温焼成で薪を節約。明朝系瓦。赤・褐色・灰色が混在した。<span class="ev-tag gold">薪不足への対応</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="body">
+    赤瓦の原料は<span class="gold">クチャ</span>と呼ばれる泥岩と赤土。2019年の火災後の復元でも沖縄本島産の材料が用いられ、2024年に約6万枚が葺き上げられた。
+  </div>
+</div>
+
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-sword"/></svg></div>
+    <div class="num">Fire</div>
+    <div class="ttl">焼失と再建</div>
+    <div class="yr">1660 — 2026</div>
+  </div>
+  <ul class="modern" style="list-style:none;padding:14px 24px 18px">
+    <li class="item"><span class="dot"></span><span class="yr">1660</span><span class="lbl">焼失。再建で瓦葺き（灰色瓦）となる</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1715</span><span class="lbl">再建。赤瓦が用いられる</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1879</span><span class="lbl">尚泰が明け渡す。以後、陸軍兵舎・学校として使用</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1925</span><span class="lbl">正殿が国宝に指定（解体撤去計画を直前に撤回）</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1945</span><span class="lbl">沖縄戦で全焼</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">1992</span><span class="lbl">正殿ほか復元、国営公園として開園</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">2000</span><span class="lbl">「首里城跡」が世界遺産に登録</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">2019</span><span class="lbl">火災により正殿ほかを焼失</span></li>
+    <li class="item"><span class="dot"></span><span class="yr">2026</span><span class="lbl">正殿の復元完成予定</span></li>
+  </ul>
+</div>
+
+<!-- ============ FAITH & FESTIVALS ============ -->
+<div class="ornament">
+  <div class="line"></div>
+  <div class="mark"><span class="diamond"></span><span>Chapter · Faith &amp; Festivals</span><span class="diamond"></span></div>
+  <div class="line"></div>
+</div>
+
+<section class="myth">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-sun"/></svg></div>
+    <div>
+      <h2>浮島神社 ── 琉球最初の神社</h2>
+      <div class="en">Ukishima-jinja · The First Shrine</div>
+    </div>
+  </div>
+  <p>1451年、第一尚氏五代・<ruby>尚金福<rt>Shō Kinpuku</rt></ruby>王の代に、宰相<ruby>懐機<rt>Kaiki</rt></ruby>が長虹堤の完成を記念して<span class="kw">長寿宮</span>を那覇若狭町に創建した。祀られたのは<ruby>天照大神<rt>Amaterasu</rt></ruby>。<span class="kw">史書で創建年が明らかな琉球最古の神社</span>であり、のちに<span class="kw">浮島神社</span>と呼ばれた。1988年に波上宮内の仮宮へ遷座している。</p>
+  <p>琉球の在来信仰は<ruby>御嶽<rt>Utaki</rt></ruby>と<ruby>ノロ<rt>Noro</rt></ruby>による女性神職の体系であり、神社という様式は日本本土から入ってきたものである。王府が管理した官社八社は<span class="kw">琉球八社</span>と呼ばれ、いずれも真言宗の寺院と併置された。神社と寺のどちらが先かは社によって諸説ある。1879年の王府解体後は明治政府の管理下に入り、戦後は宗教法人となった。</p>
+  <div class="src-note"><b>Source</b>『球陽』／ 沖縄県神社庁・波上宮由緒 ／ 鳥越憲三郎『琉球宗教史の研究』／ Feel Okinawa「琉球八社」</div>
+</section>
+
+<div class="transition" style="margin-top:22px">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-sun"/></svg></div>
+    <div class="num">Shrines</div>
+    <div class="ttl">沖縄の神社 ── 古い順</div>
+    <div class="yr">12C? — 16C</div>
+  </div>
+  <table class="ktbl">
+    <thead><tr><th class="center">No.</th><th>社名 / Shrine</th><th>創建</th><th>創建者・由緒</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">沖宮</div><div class="read">OKI-NO-GŪ</div></td>
+        <td class="yr-cell">不明（12C?）</td>
+        <td class="note-cell">舜天王の父とされる源為朝の時代に造られたと伝わり、琉球八社で最も古いとみられる。那覇港の海中から光る霊木が現れたという伝承をもつ。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">波上宮</div><div class="read">NAMINOUE-GŪ</div></td>
+        <td class="yr-cell">不明（14C?）</td>
+        <td class="note-cell">察度王の庶子・<ruby>崎山里主<rt>Sakiyama Satonushi</rt></ruby>が崖上の霊石を祀って創建したと伝わる。熊野信仰の系列で、祭神は伊弉冉尊ほか三神。<span class="ev-tag gold">琉球八社の筆頭・総鎮守</span></td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq highlight">III</span></td>
+        <td class="name-cell"><div class="name">長寿宮</div><div class="read">CHŌJU-GŪ</div></td>
+        <td class="yr-cell">1451</td>
+        <td class="note-cell">尚金福王の代、宰相・懐機が長虹堤の完成を機に創建。天照大神を祀る。のちの浮島神社。<span class="ev-tag teal">創建年が明らかな最古</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">普天満宮</div><div class="read">FUTENMA-GŪ</div></td>
+        <td class="yr-cell">15C（〜1459）</td>
+        <td class="note-cell">洞窟（普天満宮洞穴）の在来信仰を母体とする。併置の神宮寺は1459年、尚泰久王の代に建立。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">安里八幡宮</div><div class="read">ASATO HACHIMAN-GŪ</div></td>
+        <td class="yr-cell">1466</td>
+        <td class="note-cell">尚徳王が喜界島討伐の戦勝を記念して造営。琉球八社で唯一、八幡神を祀る。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VI</span></td>
+        <td class="name-cell"><div class="name">識名宮</div><div class="read">SHIKINA-GŪ</div></td>
+        <td class="yr-cell">16C</td>
+        <td class="note-cell">尚元王の長男・尚康伯の病気平癒を祈願して創建されたと伝わる。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VII</span></td>
+        <td class="name-cell"><div class="name">末吉宮・天久宮・金武宮</div><div class="read">SUEYOSHI · AMEKU · KIN</div></td>
+        <td class="yr-cell">15 — 16C</td>
+        <td class="note-cell">末吉宮は尚泰久王の代の創建と伝わる。金武宮は鍾乳洞を神域とする。いずれも熊野権現を祀り、王府の官社とされた。</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="body">
+    <span class="gold">琉球八社</span>＝波上宮・沖宮・識名宮・普天満宮・末吉宮・安里八幡宮・天久宮・金武宮。王府が維持経営を保障した官社で、首座は波上宮。これは同境内の護国寺が真言宗各寺の本寺であったことによる。
+    <div class="src-note"><b>Source</b>『琉球国由来記』／『球陽』／ 鳥越憲三郎『琉球宗教史の研究』／ 各社由緒 ・ 沖縄県神社庁 ／ 『日本の神々 13 南西諸島』</div>
+  </div>
+</div>
+
+<div class="transition">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-scroll"/></svg></div>
+    <div class="num">Temples</div>
+    <div class="ttl">寺院と大和の僧</div>
+    <div class="yr">13C — 1603</div>
+  </div>
+  <table class="ktbl">
+    <thead><tr><th class="center">No.</th><th>寺院・僧 / Temple &amp; Monk</th><th>年代</th><th>由緒</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">極楽寺 / 禅鑑</div><div class="read">GOKURAKUJI · ZENKAN</div></td>
+        <td class="yr-cell">13C（伝）</td>
+        <td class="note-cell">英祖王の代、漂着した僧のために浦添に極楽寺が建てられたと伝わる。僧の名は<ruby>禅鑑<rt>Zenkan</rt></ruby>とされ、琉球への仏教伝来の始まりに位置づけられる。<span class="ev-tag">伝承</span></td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq highlight">II</span></td>
+        <td class="name-cell"><div class="name">護国寺 / 頼重法印</div><div class="read">GOKOKUJI · RAIJŪ</div></td>
+        <td class="yr-cell">1368</td>
+        <td class="note-cell">薩摩国坊津の一乗院から真言宗布教のため来琉した<ruby>頼重法印<rt>Raijū Hōin</rt></ruby>が開山。察度の尊信を得て勅願寺となる。波上宮の神宮寺。<span class="ev-tag teal">現存する沖縄最古の寺院</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">III</span></td>
+        <td class="name-cell"><div class="name">円覚寺 / 芥隠禅師</div><div class="read">ENKAKUJI · KAIIN</div></td>
+        <td class="yr-cell">1492 — 1494</td>
+        <td class="note-cell">尚真王が父・尚円王の追福のため建立。京都の臨済宗僧<ruby>芥隠禅師<rt>Kaiin Zenji</rt></ruby>が開山し、鎌倉の円覚寺にならう七堂伽藍を備えた。第二尚氏の菩提寺・臨済宗総本山。沖縄戦で焼失、1968年に総門を復元。<span class="ev-tag gold">琉球最初の大規模寺院</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">日秀</div><div class="read">NISSHŪ</div></td>
+        <td class="yr-cell">1522</td>
+        <td class="note-cell">薩摩から渡来した僧。波上宮に阿弥陀如来・薬師如来・千手観音を彫って本地仏として納めたと伝わる。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">袋中上人 / 桂林寺</div><div class="read">TAICHŪ · KEIRINJI</div></td>
+        <td class="yr-cell">1603 — 1606</td>
+        <td class="note-cell">陸奥国磐城郡（現・福島県いわき市）出身の浄土宗の学僧。明へ渡ろうとして琉球に滞在し、尚寧王に認められて浄土宗を布教、桂林寺の住持となる。著書『琉球神道記』『琉球往来』。<span class="ev-tag gold">エイサーの祖</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="body">
+    琉球には<span class="gold">臨済宗</span>と<span class="gold">真言宗</span>の二派が伝えられ、王府は臨済宗を厚遇した。真言宗の寺院にも王府から寺禄を与えられた八公寺があり、いずれも琉球八社と併置された。
+    <div class="src-note"><b>Source</b>『琉球国由来記』／ 護国寺・円覚寺各寺由緒 ／ 文化遺産オンライン「円覚寺跡」（国指定史跡）／ 首里城公園「円覚寺」／ エイサー会館「エイサーの起源と近現代の展開」</div>
+  </div>
+</div>
+
+<section class="myth" style="margin-top:22px">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-rings"/></svg></div>
+    <div>
+      <h2>エイサー ── 念仏踊りから</h2>
+      <div class="en">Eisā · From the Nenbutsu Dance</div>
+    </div>
+  </div>
+  <p>エイサーの起源を明記した文献はなく諸説あるが、有力視されるのが<span class="kw">袋中上人</span>の伝えた<span class="kw">念仏踊り</span>を母体とする説である。1603年から3年間、袋中は首里に滞在して浄土宗を布教した。仏典を唱えながら踊るその形式が、沖縄独自の芸能へ発展したとされる。袋中の故郷・福島県いわき市にはエイサーとよく似た「じゃんがら念仏踊り」が現在も伝わる。</p>
+  <p>いっぽう1400年頃の琉球王府では、すでに7月15日の王族の年忌法要で踊りが披露されていたともいわれる。在来の法要の踊りと袋中の念仏踊りが合わさって現在の形になったという見方もある。名称の由来は、浄土宗系の念仏歌に挟まれる囃子詞「<span class="kw">エイサー、エイサー、ヒヤルガエイサー</span>」であるとするのが現在の通説。囃子詞はリズムに合わせて歌と踊りの調子を整え、場を盛り上げるための掛け声で、それ自体に意味はない。念仏歌はこの囃子を挟んで八六調の歌詞が続く形をとる。すなわち、歌のなかで繰り返される掛け声が、そのまま踊りそのものの名になったとする。</p>
+  <p>もうひとつの説は、古歌謡集『<ruby>おもろさうし<rt>Omoro Sōshi</rt></ruby>』巻十四に見える「いろいろの<span class="kw">ゑさおもろ</span>」に求めるもので、沖縄学の祖・<ruby>伊波普猷<rt>Iha Fuyū</rt></ruby>が唱えた。ただし今日の芸能研究者の多くは、「エイサー」と「ゑさおもろ」の間に直接のつながりは見出せないとしてこれをとらない。エイサー音曲の中核が今も「継親念仏」「仲順流れ」などの念仏系の歌であることが、囃子詞起源説を裏付けている。</p>
+  <p>旧盆に戻る祖先の霊を迎えるため、男たちが歌と囃子に合わせて集落の道を練り歩く。これを<span class="kw">道ジュネー</span>という。近年は太鼓を用いる形が主流となり、沖縄全島エイサーまつりなど鑑賞を目的とした催しも定着した。</p>
+  <div class="src-note"><b>Source</b>エイサー会館（沖縄市）「エイサーの起源と近現代の展開」／『琉球神道記』袋中 ／『おもろさうし』巻十四／ 伊波普猷の語源説／ 青年ふるさとエイサー祭り実行委員会（沖縄県青年団協議会）／ 沖縄市史</div>
+</section>
+
+<section class="myth" style="margin-top:8px">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-anchor"/></svg></div>
+    <div>
+      <h2>ハーリー ── 爬龍船競漕</h2>
+      <div class="en">Hārī · The Dragon Boat Race</div>
+    </div>
+  </div>
+  <p>中国の福建・広東で端午の節句に行われる<span class="kw">龍舟節</span>に起源をもつ行事で、琉球への伝来は1392年から1405年頃とされる。由来には三説がある。</p>
+  <p>ひとつは中国から那覇に定住した<span class="kw">久米三十六姓</span>が太平を祝して爬龍船を造ったという説。ふたつめは南山王の甥でのちに豊見城城主となった<span class="kw"><ruby>汪応祖<rt>Ō-ōso</rt></ruby></span>が、南京留学中に見た龍舟を帰国後に建造させ、豊見城城下の<span class="kw">漫湖</span>に浮かべたという説。みっつめは那覇西村の<span class="kw"><ruby>長浜大夫<rt>Nagahama Daiyū</rt></ruby></span>が南京で龍舟の造り方を習い、5月初めに那覇港で競漕したという説である。より多くの記述が残るのは汪応祖の説で、『琉球国由来記』『琉球国日記』には那覇ハーリーに先立って豊見城の豊見瀬御嶽で祈願した記録がある。</p>
+  <p>王国の一大年中行事だった那覇ハーリーは、1879年の琉球処分で中断した。沖縄戦と米軍統治を経て1975年に約60年ぶりに復活し、現在の爬龍船は全長14.5メートル、幅2.1メートル、重さ約2.5トン。首里城の龍潭では、冊封使をもてなす爬龍舟競漕が行われた記録も残る。</p>
+  <div class="src-note"><b>Source</b>『琉球国由来記』／『琉球国日記』／ 琉球新報「那覇ハーリーって何？」／ 豊見城市「ハーリー由来祭り」／ 糸満市「糸満ハーレーの歴史」</div>
+</section>
+
+<!-- ============ HORSES & SULFUR ============ -->
+<div class="ornament">
+  <div class="line"></div>
+  <div class="mark"><span class="diamond"></span><span>Chapter · Horses &amp; Sulfur</span><span class="diamond"></span></div>
+  <div class="line"></div>
+</div>
+
+<section class="myth">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-anchor"/></svg></div>
+    <div>
+      <h2>馬と硫黄 ── 琉球の二大進貢品</h2>
+      <div class="en">Horses &amp; Sulfur · The Two Tribute Goods</div>
+    </div>
+  </div>
+  <p>馬と硫黄は<span class="kw">琉球から明へ送られた二大進貢品</span>であり、輸入品ではなく自国産の輸出品であった。これと引き換えに琉球が受け取ったのが<span class="kw">陶器と鉄釜</span>である。進貢の制度は一方向の献上ではなく、実態は官営の交換貿易だった。</p>
+  <p>1372年、洪武帝が使者<ruby>楊載<rt>Yōsai</rt></ruby>を琉球に遣わし、中山王察度が弟の<ruby>泰期<rt>Taiki</rt></ruby>を明へ送って進貢が始まる。二年後の1374年、明は刑部侍郎<span class="kw"><ruby>李浩<rt>Rikō</rt></ruby></span>に<span class="kw">陶器約7万・鉄釜約1,000</span>を持たせて派遣し、馬の購入を命じた。李浩は1376年に<span class="kw">馬40匹・硫阸5,000斤</span>（約3トン、1斤は約600グラム）を買い入れて帰国した。これが現存史料で確認できる<span class="kw">硫黄輸出の最初の記録</span>である。</p>
+  <p>翼年1377年には察度が泰期らを遣わして馬16匹・硫阸1,000斤を貢し、以後三山の王たちが競うように貢馬と硫黄を送った。中山は察度・武寧、山南は承察度・汪英紫・汪応祖・他魯毎、山北は怕尼芝・珉・攀安知である。<span class="kw">1383年には983頭の市馬（購入馬）の記録</span>があり、明初期の軍馬調達に琉球が果たした役割の大きさを示す。</p>
+  <p>硫黄の産地は<span class="kw"><ruby>硫黄鳥島<rt>Iō-torishima</rt></ruby></span>。得之島の西約65キロにある沖縄県唯一の活火山島で、王国で唯一の硫黄産地であった。明が硫黄を求めた理由は<span class="kw">黒色火薬の原料</span>であること。中国は領域内に活火山がほとんど分布せず、自然硫黄を大量に確保することがきわめて難しかった。琉球の硫黄は中国だけでなく東南アジアにも向かい、<ruby>暈羅<rt>Siam</rt></ruby>（タイ）国王へも一回につき2,500斤（約1.5トン）ほどがしばしば贈られた。</p>
+  <div class="src-note"><b>Source</b>琉球王国交流史・近代沖縄史料デジタルアーカイブ「琉球の進貢品─硫黄編」・同「歴代宝案と琉明関係」・同歴史年表／『明実録』（太祖実録）／『歴代宝案』1-40-01・1-40-02／ 長濱幸男「琉球の献上馬と倭寇」『宮古島市総合博物館紀要』第27号（2023）</div>
+</section>
+
+<div class="transition" style="margin-top:22px">
+  <div class="lbl">
+    <div class="ico"><svg><use href="#i-scroll"/></svg></div>
+    <div class="num">Record</div>
+    <div class="ttl">馬と硫黄の記録</div>
+    <div class="yr">1372 — 1967</div>
+  </div>
+  <table class="ktbl">
+    <thead><tr><th class="center">No.</th><th>出来事 / Event</th><th>年</th><th>数量・内容</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="num-cell"><span class="seq">I</span></td>
+        <td class="name-cell"><div class="name">進貢の開始</div><div class="read">FIRST TRIBUTE</div></td>
+        <td class="yr-cell">1372</td>
+        <td class="note-cell">洪武帝が楊載を派遣。中山王察度が弟・泰期を明へ遣わす。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">II</span></td>
+        <td class="name-cell"><div class="name">李浩の派遣</div><div class="read">RIKŌ'S MISSION</div></td>
+        <td class="yr-cell">1374</td>
+        <td class="note-cell">陶器約7万・鉄釜約1,000を持たせ、馬の購入を命じる。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq highlight">III</span></td>
+        <td class="name-cell"><div class="name">硫黄の初輸出</div><div class="read">FIRST SULFUR</div></td>
+        <td class="yr-cell">1376</td>
+        <td class="note-cell">李浩が馬40匹・硫阸5,000斤（約3トン）を購入して帰国。<span class="ev-tag teal">硫黄輸出の最古の記録</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IV</span></td>
+        <td class="name-cell"><div class="name">泰期の進貢</div><div class="read">TAIKI'S TRIBUTE</div></td>
+        <td class="yr-cell">1377</td>
+        <td class="note-cell">慶賀のため察度が泰期らを遣わし、馬16匹・硫阸1,000斤を貢す。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">V</span></td>
+        <td class="name-cell"><div class="name">市馬983頭</div><div class="read">983 HORSES</div></td>
+        <td class="yr-cell">1383</td>
+        <td class="note-cell">『明実録』に見える最大規模の購入馬の記録。<span class="ev-tag gold">明初期の軍馬調達</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VI</span></td>
+        <td class="name-cell"><div class="name">三山の競合</div><div class="read">THREE MOUNTAINS</div></td>
+        <td class="yr-cell">14C末 — 15C初</td>
+        <td class="note-cell">中山（察度・武寧）・山南（承察度・汪英紫・汪応祖・他魯毎）・山北（怕尼芝・珉・攀安知）が競って貢馬と硫黄を送る。</td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">VII</span></td>
+        <td class="name-cell"><div class="name">進貢の盛期</div><div class="read">PEAK</div></td>
+        <td class="yr-cell">〜1430年代</td>
+        <td class="note-cell">平均して年3回の進貢。事実上無制限の朝貢と船舶の下賜を認められていた。</td>
+      </tr>
+      <tr class="event">
+        <td class="num-cell"><span class="seq">VIII</span></td>
+        <td class="name-cell"><div class="name">進貢の衰退</div><div class="read">DECLINE</div></td>
+        <td class="yr-cell">1440年代 —</td>
+        <td class="note-cell">朝貢回数が減り、1460年代以降大きく減少。硫黄と馬の貢量も減っていった。<span class="ev-tag">朝貢制限</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">IX</span></td>
+        <td class="name-cell"><div class="name">硫黄鳥島の存続</div><div class="read">IŌ-TORISHIMA KEPT</div></td>
+        <td class="yr-cell">1609</td>
+        <td class="note-cell">薩摩侵攻で与論島以北が薩摩藩に編入された後も、中国への朝貢を続けるため硫黄鳥島は首里王府の領地として残された。<span class="ev-tag gold">硫黄のための例外</span></td>
+      </tr>
+      <tr>
+        <td class="num-cell"><span class="seq">X</span></td>
+        <td class="name-cell"><div class="name">採掘の終わり</div><div class="read">END OF MINING</div></td>
+        <td class="yr-cell">1903 — 1967</td>
+        <td class="note-cell">1903年の噴火で住民は久米島へ集団移住。1959年の噴火を経、1967年に採掘従事者も撤退し完全な無人島となった。</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="src-note" style="margin:0 24px 18px"><b>Source</b>琉球王国交流史デジタルアーカイブ 歴史年表／『明実録』／ 長濱幸男「琉球の献上馬と倭寇」（2023）／ 久米島博物館／ 週刊レキオ「島ネタCHOSA班」No.1655（2017）</div>
+</div>
+
+<section class="myth" style="margin-top:8px">
+  <div class="head">
+    <div class="icon"><svg><use href="#i-diamond"/></svg></div>
+    <div>
+      <h2>馬と硫黄をめぐる四つの事実</h2>
+      <div class="en">Notes on the Trade</div>
+    </div>
+  </div>
+  <p><span class="kw">「輸入品」と逆である。</span>馬と硫黄は琉球が差し出した側で、受け取ったのは陶器・鉄釜・生糸・絹織物などである。ただし実態は売買に近く、明側は代価としてものを渡している。</p>
+  <p><span class="kw">琉球にはこの二つしかなかった。</span>馬と硫黄以外に特産物と呼べるものがなく、だからこそ一度輸入した品を他国へ再輸出する<span class="kw">中継貿易</span>の拠点へと発展した。胡椒や蘇木といった進貢品はすべて東南アジア産である。</p>
+  <p><span class="kw">進貢した馬は小柄だった。</span>琉球産の馬は日本在来馬の系統で、現在のヨナグニウマ・ミヤコウマにつながる。当時はその名称はなく、単に琉球産の馬であった。令和5年時点の頭数はヨナグニウマ110頭、ミヤコウマ50頭である。</p>
+  <p><span class="kw">硫黄だけは薩摩も取らなかった。</span>1609年の侵攻で奇界島・大島・徳之島など北方の島々は薩摩藩に編入されたが、地理的には徳之島のすぐ西にある硫黄鳥島は首里王府領のまま残された。琉球に中国との朝貢を続けさせることが薩摩の利益にかなっていたからである。硫黄鳥島が現在も地理的に離れた久米島町に属するのは、この経緯と、のちの噴火による久米島への集団移住による。</p>
+  <div class="src-note"><b>Source</b>ホームメイト日本史辞典「琉球貿易」／ ヨナグニウマ保護活用協会（頭数は日本馬事協会）／ 週刊レキオ「島ネタCHOSA班」No.1655（2017）／ 久米島博物館</div>
+</section>
+
+<div class="pager"><a href="琉球史料集成.html"><small>Next</small>史料集成へ →</a></div>
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="crest-sm"><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"></div>
+  <div class="src">
+    <strong>主要典拠</strong><br>
+    『中山世鑑』 向象賢 ・ 1650年　／　『中山世譜』 蔡鐸 ・ 蔡温 ・ 1701／1725年　／　『球陽』 1745年　／　国営沖縄記念公園 首里城公園 ・ 沖縄県立博物館・美術館 ・ 沖縄県公式サイト
+  </div>
+  <div class="note">※ 舜天・天孫氏王統の在位年・事績は伝説に基づく。現代歴史学では史実として扱わない。</div>
+</footer>
+
+</div><!-- /.inner -->
+</div><!-- /.page -->
+<script>
+(function(){
+var P='琉球史料集成.html#';
+var M={'安国山樹華木記碑':'安国山樹華木記碑','安国山樹華木記':'安国山樹華木記碑','中山世鑑':'中山世鑑','中山世譜':'中山世譜','球陽':'球陽','歴代宝案':'歴代宝案','明実録':'明実録','琉球国由来記':'琉球国由来記','おもろさうし':'おもろさうし','幻雲文集':'幻雲文集','幻雲文章':'幻雲文集','万国津梁の鐘':'万国津梁の鐘_銘','琉球神道記':'琉球神道記','中山伝信録':'中山伝信録','使琉球録':'使琉球録','使琉球記':'使琉球記','琉球国志略':'琉球国志略','海東諸国紀':'海東諸国紀','高麗史':'高麗史','朝鮮王朝実録':'朝鮮王朝実録','玉陵碑':'玉陵碑','真珠湊碑文':'真珠湊碑文','喜安日記':'喜安日記','南島志':'南島志','続日本紀':'続日本紀','唐大和上東征伝':'唐大和上東征伝','諸蕺志':'諸蕺志','隋書':'隋書_流求国伝','元史':'元史_瑠求伝'};
+var keys=Object.keys(M).sort(function(a,b){return b.length-a.length});
+var re=new RegExp(keys.join('|'),'g');
+var root=document.querySelector('.page');
+var skip='a,script,style,rt,title,template,.sitenav,.pager,.masthead,.band';
+var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentElement;if(!p||p.closest(skip))return NodeFilter.FILTER_REJECT;re.lastIndex=0;return re.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP}});
+var list=[];while(w.nextNode())list.push(w.currentNode);
+function mk(k){var a=document.createElement('a');a.className='srclink';a.href=P+M[k];a.title='史料集成で見る';return a}
+list.forEach(function(n){
+ var p=n.parentElement;
+ if(p.tagName==='RUBY'){var t=n.nodeValue.trim();if(M[t]&&!p.closest('a')){var a=mk(t);p.parentNode.insertBefore(a,p);a.appendChild(p)}return}
+ var s=n.nodeValue,f=document.createDocumentFragment(),last=0,m;re.lastIndex=0;
+ while((m=re.exec(s))){f.appendChild(document.createTextNode(s.slice(last,m.index)));var a=mk(m[0]);a.textContent=m[0];f.appendChild(a);last=m.index+m[0].length}
+ f.appendChild(document.createTextNode(s.slice(last)));p.replaceChild(f,n);
+});
+})();
+</script>
+</body>
+</html>
