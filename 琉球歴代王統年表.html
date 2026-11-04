@@ -254,6 +254,8 @@ a{color:var(--gold-2);text-decoration:none}a:hover{color:var(--gold-3)}
 @media(max-width:680px){.sitenav a{padding:12px;font-size:12px;letter-spacing:.1em}}
 a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2s}a.srclink:hover{color:var(--gold-3);border-bottom-style:solid}
 @media(max-width:680px){.era{gap:10px}.era .roman{display:none}}
+.sitenav{flex-wrap:wrap;gap:10px}.sitenav a{padding:10px 22px;font-size:15px;letter-spacing:.18em}
+@media(max-width:680px){.sitenav{gap:6px;padding:10px 8px}.sitenav a{padding:8px 10px;font-size:12px;letter-spacing:.06em}}
 </style>
 </head>
 <body>
@@ -366,7 +368,7 @@ a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2
 </svg>
 
 <!-- ============ MASTHEAD ============ -->
-<nav class="sitenav"><a href="琉球歴代王統年表.html" class="on">歴代王統年表</a><a href="琉球史料集成.html">史料集成</a><a href="琉球人物誌.html">人物誌</a></nav>
+<nav class="sitenav"><a href="琉球歴代王統年表.html" class="on">歴代王統年表</a><a href="首里の誕生.html">首里の誕生</a><a href="琉球史料集成.html">史料集成</a><a href="琉球人物誌.html">人物誌</a><a href="琉球考古学.html">考古学</a><a href="琉球言語学.html">言語学</a></nav>
 <header class="masthead inner">
   <!-- 首里城写真 — 3枚をランダム順でクロスフェードスライド -->
   <div class="shuri-photo" id="shuriSlideshow">
@@ -782,7 +784,7 @@ a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2
         <td class="num-cell"><span class="seq">VI</span></td>
         <td class="name-cell"><div class="name">尚泰久</div><div class="read">SHŌ TAIKYŪ</div></td>
         <td class="yr-cell">1454 — 1460</td>
-        <td class="note-cell">「万国津梁の鐘」鋳造（1458年）。護佐丸・阿麻和利の乱（1458年）。明・東南アジア交易推進。<span class="ev-tag teal">万国津梁</span></td>
+        <td class="note-cell">「万国津梁の鐘」鋳造（1458年）。護佐丸・阿麻和利の乱（1458年）。明・東南アジア交易推進。天界寺などの寺を建て、多くの鐘を鋳させた（<a href="首里の誕生.html#taikyu">首里の誕生 →</a>）。<span class="ev-tag teal">万国津梁</span></td>
       </tr>
       <tr class="event">
         <td class="num-cell"><span class="seq">VII</span></td>
@@ -1234,13 +1236,13 @@ a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2
         <td class="num-cell"><span class="seq">III</span></td>
         <td class="name-cell"><div class="name">円覚寺 / 芥隠禅師</div><div class="read">ENKAKUJI · KAIIN</div></td>
         <td class="yr-cell">1492 — 1494</td>
-        <td class="note-cell">尚真王が父・尚円王の追福のため建立。京都の臨済宗僧<ruby>芥隠禅師<rt>Kaiin Zenji</rt></ruby>が開山し、鎌倉の円覚寺にならう七堂伽藍を備えた。第二尚氏の菩提寺・臨済宗総本山。沖縄戦で焼失、1968年に総門を復元。<span class="ev-tag gold">琉球最初の大規模寺院</span></td>
+        <td class="note-cell">尚真王が父・尚円王の追福のため建立。京都の臨済宗僧<a href="琉球人物誌.html#芥隠承琥"><ruby>芥隠承琥<rt>Kaiin Shōko</rt></ruby></a>（芥隠禅師）が開山し、鎌倉の円覚寺にならう七堂伽藍を備えた。第二尚氏の菩提寺・臨済宗総本山。沖縄戦で焼失、1968年に総門を復元。<span class="ev-tag gold">琉球最初の大規模寺院</span></td>
       </tr>
       <tr>
         <td class="num-cell"><span class="seq">IV</span></td>
-        <td class="name-cell"><div class="name">日秀</div><div class="read">NISSHŪ</div></td>
-        <td class="yr-cell">1522</td>
-        <td class="note-cell">薩摩から渡来した僧。波上宮に阿弥陀如来・薬師如来・千手観音を彫って本地仏として納めたと伝わる。</td>
+        <td class="name-cell"><div class="name">金武観音寺 / 日秀上人</div><div class="read">KIN KANNONJI · NISSHŪ</div></td>
+        <td class="yr-cell">1522（伝）</td>
+        <td class="note-cell">熊野那智から補陀落渡海に出て金武に漂着したと伝わる真言宗の僧<a href="琉球人物誌.html#日秀上人"><ruby>日秀上人<rt>Nisshū Shōnin</rt></ruby></a>が、金武観音寺を開き、阿弥陀・薬師・観音の三像を彫って安置した。鍾乳洞の金武宮も彼の勧請とされる。来琉年は史料により異なり、1527〜1534年ごろとする研究もある。<span class="ev-tag">諸説あり</span></td>
       </tr>
       <tr class="event">
         <td class="num-cell"><span class="seq">V</span></td>
@@ -1251,8 +1253,10 @@ a.srclink{color:inherit;border-bottom:1px dotted var(--gold);transition:color .2
     </tbody>
   </table>
   <div class="body">
-    琉球には<span class="gold">臨済宗</span>と<span class="gold">真言宗</span>の二派が伝えられ、王府は臨済宗を厚遇した。真言宗の寺院にも王府から寺禄を与えられた八公寺があり、いずれも琉球八社と併置された。
-    <div class="src-note"><b>Source</b>『琉球国由来記』／ 護国寺・円覚寺各寺由緒 ／ 文化遺産オンライン「円覚寺跡」（国指定史跡）／ 首里城公園「円覚寺」／ エイサー会館「エイサーの起源と近現代の展開」</div>
+    <p style="margin-bottom:12px"><span class="gold">琉球と仏教</span>　琉球の仏教は、主に<span class="teal">日本本土から渡った僧</span>によって広められたとされる。英祖王代の禅鑑の伝承に始まり、14世紀には薩摩の頼重が真言宗を、第一尚氏の尚泰久王代には芥隠承琥が臨済宗を伝えた。尚泰久王は多くの寺を建て、鐘を鋳させた。万国津梁の鐘の銘も「三宝を興隆し、四恩に報いる」ために鋳たと記す。16世紀には日秀が熊野信仰と結びついた真言宗を広め、17世紀初めには袋中が浄土宗を伝えた。</p>
+    <p style="margin-bottom:12px">王府は<span class="gold">臨済宗</span>を厚遇し、円覚寺を王家の菩提寺とした。<span class="gold">真言宗</span>の寺院にも王府から寺禄を与えられた八公寺があり、いずれも琉球八社と併置された。熊野権現を祀る神社と、その本地仏を祀る寺が対になる形である。</p>
+    <p>一方で、仏教は王家や士族の信仰にとどまり、村々の祭祀は<ruby>御嶽<rt>Utaki</rt></ruby>と<ruby>ノロ<rt>Noro</rt></ruby>が担い続けた。広く民間に入ったのは、袋中の念仏から生まれたとされるエイサーなど、盆行事と結びついた形であった。</p>
+    <div class="src-note"><b>Source</b>『琉球国由来記』／ 護国寺・円覚寺各寺由緒 ／ 文化遺産オンライン「円覚寺跡」（国指定史跡）／ 首里城公園「円覚寺」／ エイサー会館「エイサーの起源と近現代の展開」／『球陽』／ 琉球新報『沖縄大百科事典』「日秀上人」／ 万国津梁の鐘 鐘銘</div>
   </div>
 </div>
 
