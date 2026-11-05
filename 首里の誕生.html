@@ -8,6 +8,35 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Noto+Serif+JP:wght@400;500;600;700&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/sub.css">
+<link rel="stylesheet" href="assets/leaflet/leaflet.css">
+<script src="assets/leaflet/leaflet.js"></script>
+<style>
+.nmap{position:relative;border:1px solid var(--line);background:var(--bg-2)}
+#nmap{height:540px;background:#1d1810;outline:none}
+#nmap:focus-visible{box-shadow:inset 0 0 0 2px var(--gold)}
+.npanel{position:absolute;top:12px;right:12px;z-index:500;width:236px;background:rgba(12,10,7,.94);border:1px solid var(--gold-soft);font-size:12px;color:var(--ink)}
+.nsec{display:block;padding:10px 14px;border-top:1px solid var(--line)}.nsec:first-child{border-top:none}
+.nhead{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.16em;color:var(--gold-2);margin-bottom:8px}.nhead span{font-family:var(--serif-en);color:var(--ink-2);letter-spacing:.06em}
+.npanel input[type=range]{width:100%;accent-color:var(--gold)}
+.npanel button{font-family:var(--serif);font-size:12px;padding:6px 0;border:1px solid var(--line-2);background:transparent;color:var(--ink-2);cursor:pointer}
+.npanel button:hover{border-color:var(--gold);color:var(--gold-3)}
+.npanel button.on{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.nbm{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.nnudge,.nsc{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.nsc{margin-top:6px}
+.nchk{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--ink-2)}.nchk input{accent-color:var(--gold)}
+.ntoggle{display:none;position:absolute;top:10px;right:10px;z-index:501;padding:8px 14px;font-family:var(--serif);font-size:12px;letter-spacing:.14em;background:rgba(12,10,7,.94);color:var(--gold-2);border:1px solid var(--gold-soft);cursor:pointer}
+.nlm{background:rgba(12,10,7,.88);border:1px solid var(--gold-soft);padding:1px 6px;font-family:var(--serif);font-size:11px;color:var(--gold-3);white-space:nowrap}
+.nlegend{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:12px;font-size:12px;color:var(--ink-2)}
+.nlegend span{display:flex;align-items:center;gap:8px}.nlegend i{width:16px;height:12px;display:block}.nlegend i.dash{border:1.5px dashed #5a8fb8}
+.nmap .leaflet-control-attribution{background:rgba(12,10,7,.8);color:var(--ink-3);font-size:10px}.nmap .leaflet-control-attribution a{color:var(--gold-2)}
+.nmap .leaflet-bar a{background:#15110a;color:var(--gold-2);border-color:var(--line-2)}
+.nmap{overflow:hidden}
+.nmap img{max-width:none}
+.nnotice{display:none;position:absolute;left:10px;bottom:10px;z-index:500;max-width:calc(100% - 80px);padding:6px 10px;background:rgba(12,10,7,.9);border:1px solid var(--line-2);font-size:11px;line-height:1.6;color:var(--ink-2)}
+.nmap.notiles .nnotice{display:block}
+.nmap.notiles .nbm button{opacity:.4;pointer-events:none}
+@media(max-width:680px){#nmap{height:440px}.npanel{display:none;top:50px;left:10px;right:10px;width:auto;max-height:340px;overflow-y:auto}.nmap.open .npanel{display:block}.ntoggle{display:block}}
+</style>
 </head>
 <body>
 <div class="page">
@@ -15,7 +44,7 @@
 <header class="band inner"><img class="bg" src="assets/shuri-photo.jpg" alt=""><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"><div class="en">The Making of Shuri</div><h1>首里の誕生</h1><div class="subtitle">尚泰久から尚真まで　寺と鐘の都</div></header>
 <div class="inner">
 <div class="lead">15世紀半ばから16世紀初めにかけて、首里城のまわりには臨済宗の寺が次々に建てられ、日本本土の形式で造られた鐘が掛けられた。この章では、尚泰久王・尚円王・尚真王の3代に建てられた主な寺と鐘を年代順にたどる。王府の史書が伝える創建年には幅があるものは「諸説」に記し、研究者の解釈は「研究上の見方」として分けた。</div>
-<nav class="toc"><a href="#taikyu">尚泰久王の寺</a><a href="#kane">琉球の鐘</a><a href="#en">尚円王と天王寺</a><a href="#shin">尚真王と円覚寺</a><a href="#view">研究上の見方</a></nav>
+<nav class="toc"><a href="#taikyu">尚泰久王の寺</a><a href="#kane">琉球の鐘</a><a href="#en">尚円王と天王寺</a><a href="#shin">尚真王と円覚寺</a><a href="#naha">旧那覇の海岸線</a><a href="#view">研究上の見方</a></nav>
 
 <figure class="fig" aria-label="首里城と三ヵ寺の位置関係">
 <svg id="shuri-map" viewBox="0 0 720 400" role="img" font-family="Shippori Mincho, serif">
@@ -54,9 +83,60 @@
 <div class="doc"><div class="y">外交</div><div><h3>禅僧と対日外交</h3><div class="meta"><span class="tag t">研究上の見方</span></div><p>芥隠承琥は、長く琉球にとどまって王府の顧問として日本との貿易・外交に携わった外交僧の代表とされる。16世紀の大内氏の書状には、琉球側が<span class="kw">天王寺</span>を使者として将軍に直接伝えたという記述があり、首里の禅寺が対日外交の窓口となっていたことがうかがえる。</p><p>このことから、首里の寺は宗教施設であると同時に外交と学問の拠点でもあったとする研究者の見方がある。</p><div class="dissent"><b>注意</b>円覚寺に「琉球僧録」が置かれて外交文書を一手に扱ったとする説明や、首里の寺院配置が京都・鎌倉を計画的に模したとする説明は、今回確かな出典を確認できなかった。円覚寺が鎌倉の円覚寺を模したことは史書に見える。</div><div class="src-note"><b>Source</b>『朝日日本歴史人物事典』「芥隠」／ 矢野美沙子「為朝伝説と中山王統」『沖縄文化研究』36（法政大学沖縄文化研究所）</div></div></div>
 </section>
 
+<section><div class="era" id="naha"><div class="nub"></div><div class="name">旧那覇の海岸線</div><div class="years">c.1800 / Today</div><div class="line"></div><div class="roman">Old Naha</div></div>
+<p class="lead" style="margin-top:0">首里城の外港だった那覇は、もとは浮島と呼ばれる島だった。1451年に長虹堤で首里と陸続きになり、近世から近代にかけての埋め立てで今の形になった。古い海岸線を現在の地図に重ね、透明度を変えて見比べることができる。</p>
+<div class="nmap" id="nmap-wrap">
+<div id="nmap" tabindex="0" aria-label="旧那覇の海岸線と現在の地図"></div>
+<div class="npanel" id="npanel">
+<div class="nsec"><div class="nhead">古地図の透明度<span id="nopv">60%</span></div><input type="range" id="nop" min="0" max="100" value="60"></div>
+<div class="nsec"><div class="nhead">ベースマップ</div><div class="nbm"><button data-bm="pale" class="on">淡色</button><button data-bm="std">標準</button><button data-bm="photo">航空写真</button><button data-bm="osm">OSM</button></div></div>
+<div class="nsec"><div class="nhead">位置合わせ<span id="nstep">10m</span></div><div class="nnudge"><span></span><button data-mv="n" aria-label="北へ">▲</button><span></span><button data-mv="w" aria-label="西へ">◀</button><button id="nreset">元へ</button><button data-mv="e" aria-label="東へ">▶</button><span></span><button data-mv="s" aria-label="南へ">▼</button><span></span></div><div class="nsc"><button data-sc="0.99">縮小</button><button data-sc="1.01">拡大</button><button id="nfine">粗/微</button></div></div>
+<label class="nsec nchk"><input type="checkbox" id="nlm" checked> 目印を表示</label>
+</div>
+<button class="ntoggle" id="ntoggle" aria-expanded="false">操作</button>
+<div class="nnotice" id="nnotice">この表示環境では現在の地図タイルを読み込めないため、古地図のみを表示しています。</div>
+</div>
+<div class="nlegend"><span><i style="background:#6f9a4a"></i>古海岸線（かつての陸地）</span><span><i style="background:#c9d58a"></i>1800年ごろの海岸線</span><span><i class="dash"></i>現在の河川・海岸線</span></div>
+<p class="cap" style="font-size:11.5px;color:var(--ink-3);margin-top:10px;line-height:1.8"><b style="color:var(--gold-2);font-weight:500;margin-right:8px">図</b>灰色の部分の多くは近世〜近代の埋立地。重ね合わせは波上宮・崇元寺・奥武山を基準にした推定で、数十メートルのずれがある。地図をクリックすると矢印キーでも位置を動かせる。出典：古地図「旧那覇の海岸線」／地図：国土地理院 地理院タイル、© OpenStreetMap contributors</p>
+</section>
+
 <div class="pager"><a href="琉球歴代王統年表.html"><small>Back</small>← 歴代王統年表へ</a><a href="琉球史料集成.html"><small>Next</small>史料集成へ →</a></div>
 <footer class="footer"><img class="mon" src="assets/hidari-mitsudomoe.png" alt="左三つ巴"><div class="note">※ 創建年は主に王府の史書と自治体の説明板による。史料によって幅がある。</div></footer>
 </div>
 </div>
+<script>
+(function(){
+const b0={s:26.20170,w:127.66628,n:26.22537,e:127.69972};let b={...b0};
+const pad=.006,mb=L.latLngBounds([[b0.s-pad,b0.w-pad],[b0.n+pad,b0.e+pad]]);
+const map=L.map('nmap',{scrollWheelZoom:false,zoomSnap:.25,maxBounds:mb,maxBoundsViscosity:.8});
+map.fitBounds([[b0.s,b0.w],[b0.n,b0.e]]);
+map.setMinZoom(Math.max(13,map.getZoom()-1));
+map.zoomControl.setPosition('bottomright');
+window.addEventListener('resize',()=>map.invalidateSize());
+const g='https://cyberjapandata.gsi.go.jp/xyz/',a='国土地理院';
+const bms={pale:L.tileLayer(g+'pale/{z}/{x}/{y}.png',{maxZoom:18,attribution:a}),std:L.tileLayer(g+'std/{z}/{x}/{y}.png',{maxZoom:18,attribution:a}),photo:L.tileLayer(g+'seamlessphoto/{z}/{x}/{y}.jpg',{maxZoom:18,attribution:a}),osm:L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'})};
+let tileOk=false;
+function noTiles(){if(tileOk)return;const w=document.getElementById('nmap-wrap');if(w.classList.contains('notiles'))return;w.classList.add('notiles');ov.setOpacity(1);const r=document.getElementById('nop');r.value=100;document.getElementById('nopv').textContent='100%'}
+Object.values(bms).forEach(l=>{l.on('tileload',()=>{tileOk=true;const w=document.getElementById('nmap-wrap');if(w.classList.contains('notiles')){w.classList.remove('notiles');ov.setOpacity(.6);document.getElementById('nop').value=60;document.getElementById('nopv').textContent='60%'}});l.on('tileerror',noTiles)});
+let cur=bms.pale.addTo(map);
+const llb=()=>[[b.s,b.w],[b.n,b.e]];
+const ov=L.imageOverlay('assets/kyu-naha-coast.jpg',llb(),{opacity:.6,interactive:false}).addTo(map);
+const lms=[[26.2211,127.6716,'波上宮'],[26.2214,127.6929,'崇元寺跡'],[26.2058,127.6759,'奥武山'],[26.2126,127.6790,'県庁北口'],[26.2231,127.6933,'安里三叉路'],[26.2140,127.6626,'三重城跡'],[26.2159,127.6754,'東町']];
+const lg=L.layerGroup(lms.map(([y,x,n])=>L.marker([y,x],{icon:L.divIcon({className:'',html:'<div class="nlm">'+n+'</div>',iconSize:null,iconAnchor:[0,10]})}))).addTo(map);
+const $=s=>document.querySelector(s);
+$('#nop').addEventListener('input',e=>{ov.setOpacity(e.target.value/100);$('#nopv').textContent=e.target.value+'%'});
+document.querySelectorAll('#npanel [data-bm]').forEach(btn=>btn.addEventListener('click',()=>{map.removeLayer(cur);cur=bms[btn.dataset.bm].addTo(map);ov.bringToFront();document.querySelectorAll('#npanel [data-bm]').forEach(x=>x.classList.toggle('on',x===btn))}));
+$('#nlm').addEventListener('change',e=>e.target.checked?lg.addTo(map):map.removeLayer(lg));
+let fine=false;
+$('#nfine').addEventListener('click',()=>{fine=!fine;$('#nstep').textContent=fine?'2m':'10m'});
+function mv(d,sh){const m=(fine?2:10)*(sh?5:1),la=m/110900,ln=m/99500;if(d==='n'){b.n+=la;b.s+=la}if(d==='s'){b.n-=la;b.s-=la}if(d==='e'){b.e+=ln;b.w+=ln}if(d==='w'){b.e-=ln;b.w-=ln}ov.setBounds(llb())}
+document.querySelectorAll('#npanel [data-mv]').forEach(btn=>btn.addEventListener('click',e=>mv(btn.dataset.mv,e.shiftKey)));
+$('#nmap').addEventListener('keydown',e=>{const k={ArrowUp:'n',ArrowDown:'s',ArrowLeft:'w',ArrowRight:'e'}[e.key];if(k){e.preventDefault();e.stopPropagation();mv(k,e.shiftKey)}},true);
+document.querySelectorAll('#npanel [data-sc]').forEach(btn=>btn.addEventListener('click',()=>{const f=+btn.dataset.sc,cy=(b.n+b.s)/2,cx=(b.e+b.w)/2;b.n=cy+(b.n-cy)*f;b.s=cy+(b.s-cy)*f;b.e=cx+(b.e-cx)*f;b.w=cx+(b.w-cx)*f;ov.setBounds(llb())}));
+$('#nreset').addEventListener('click',()=>{b={...b0};ov.setBounds(llb())});
+const wrap=$('#nmap-wrap'),tg=$('#ntoggle');
+tg.addEventListener('click',()=>{const o=wrap.classList.toggle('open');tg.setAttribute('aria-expanded',o)});
+})();
+</script>
 </body>
 </html>
